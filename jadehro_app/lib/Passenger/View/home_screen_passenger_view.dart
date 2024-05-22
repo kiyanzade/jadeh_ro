@@ -192,7 +192,7 @@ class _HomePassengerScreenState extends State<HomePassengerScreen> {
                       await PassengerTripController.to.getPassengerTripList();
                       EasyLoading.dismiss();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.passengerColor,
                     child: const Text(
                       'جستجو',

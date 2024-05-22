@@ -184,7 +184,7 @@ class TravelDetailPassengerView extends StatelessWidget {
                             text2:
                                 CommonController.to.tripDetailData.moneyType ==
                                         1
-                                    ? 'صلواتی'
+                                    ? 'رایگان'
                                     : 'توافقی',
                             icon: Icons.wallet,
                             border: true,

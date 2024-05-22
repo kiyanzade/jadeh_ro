@@ -76,7 +76,7 @@ class ProvinceListWidget extends StatelessWidget {
                               CommonController.to.provinceListSearch.text))
                           .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.passengerColor,
                     child: const Text(
                       'جستجو',
@@ -225,7 +225,7 @@ class ChangeProvinceListWidget extends StatelessWidget {
                               CommonController.to.provinceListSearch.text))
                           .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.passengerColor,
                     child: const Text(
                       'جستجو',
@@ -378,7 +378,7 @@ class BrandListWidget extends StatelessWidget {
                               CommonController.to.carBrandSearch.text))
                           .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.driverColor,
                     child: const Text(
                       'جستجو',
@@ -588,7 +588,7 @@ class AddTripSourceProvinceListWidget extends StatelessWidget {
                               CommonController.to.provinceListSearch.text))
                           .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.driverColor,
                     child: const Text(
                       'جستجو',
@@ -734,7 +734,7 @@ class AddTripSourceCityListWidget extends StatelessWidget {
                                   CommonController.to.cityListSearch.text))
                               .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.driverColor,
                     child: const Text(
                       'جستجو',
@@ -877,7 +877,7 @@ class AddTripDestinationProvinceListWidget extends StatelessWidget {
                               CommonController.to.provinceListSearch.text))
                           .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.driverColor,
                     child: const Text(
                       'جستجو',
@@ -1025,7 +1025,7 @@ class AddTripDestinationCityListWidget extends StatelessWidget {
                                   CommonController.to.cityListSearch.text))
                               .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.driverColor,
                     child: const Text(
                       'جستجو',
@@ -1174,7 +1174,7 @@ class FilterSourceCityListWidget extends StatelessWidget {
                                   CommonController.to.cityListSearch.text))
                               .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.passengerColor,
                     child: const Text(
                       'جستجو',
@@ -1321,7 +1321,7 @@ class FilterDestinationProvinceListWidget extends StatelessWidget {
                               CommonController.to.provinceListSearch.text))
                           .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.passengerColor,
                     child: const Text(
                       'جستجو',
@@ -1469,7 +1469,7 @@ class FilterDestinationCityListWidget extends StatelessWidget {
                                   CommonController.to.cityListSearch.text))
                               .toList();
                     },
-                    fixedSize: const Size(75, 35),
+                    fixedSize: const Size(90, 35),
                     backgroundColor: Constants.passengerColor,
                     child: const Text(
                       'جستجو',

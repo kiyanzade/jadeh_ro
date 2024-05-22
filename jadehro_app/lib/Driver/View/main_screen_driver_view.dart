@@ -32,8 +32,12 @@ class _MainScreenDriverViewState extends State<MainScreenDriverView> {
       () => Scaffold(
         appBar: AppBar(
           backgroundColor: Constants.driverColor,
-          title: const Text("جانمونی"),
+          title: Text(
+            "جاده رو",
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
           centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         drawer: Drawer(
           width: (Get.width / 4) * 3.0,

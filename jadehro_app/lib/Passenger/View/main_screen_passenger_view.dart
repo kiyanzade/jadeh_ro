@@ -32,7 +32,7 @@ class _MainScreenPassengerViewState extends State<MainScreenPassengerView> {
       () => Scaffold(
         appBar: AppBar(
           backgroundColor: Constants.passengerColor,
-          title: const Text("جانمونی"),
+          title: const Text("جاده رو"),
           centerTitle: true,
         ),
         drawer: Drawer(
@@ -124,7 +124,7 @@ class _MainScreenPassengerViewState extends State<MainScreenPassengerView> {
                     // ),
                     ListTile(
                       title: const Row(
-                        children:  [
+                        children: [
                           Icon(
                             Icons.support_agent,
                             color: Constants.passengerColor,

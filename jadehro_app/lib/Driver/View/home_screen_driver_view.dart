@@ -28,9 +28,6 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // player.setUrl(
-    //     'https://dlw.webahang.ir/music/Track/maziar-tavoli-refigh-ja-namoni(128).mp3');
-    debugPrint("home");
     return FutureBuilder(
       future: DriverTripController.to.getDriverTripList(),
       builder: (context, snapshot) {
@@ -77,36 +74,6 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                       fit: BoxFit.fill,
                     ),
                   ),
-                  itemIndex == 1
-                      ? Align(
-                          alignment: Alignment.center,
-                          child: InkWell(
-                            onTap: () {
-                              player.playing
-                                  ? {
-                                      player.pause(),
-                                      play.value = false,
-                                    }
-                                  : {
-                                      player.play(),
-                                      play.value = true,
-                                    };
-                            },
-                            child: Obx(() => Container(
-                                  alignment: Alignment.center,
-                                  width: 30,
-                                  height: 30,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: play.value
-                                      ? const Icon(Icons.pause)
-                                      : const Icon(Icons.play_arrow),
-                                )),
-                          ),
-                        )
-                      : const SizedBox(),
                 ]);
               },
             ),

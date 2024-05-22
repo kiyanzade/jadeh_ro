@@ -59,7 +59,7 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                       children: const [
                         Icon(Icons.handshake_rounded),
                         SizedBox(width: 5),
-                        Text('صلواتی'),
+                        Text('رایگان'),
                       ],
                     ),
                     value: 1,

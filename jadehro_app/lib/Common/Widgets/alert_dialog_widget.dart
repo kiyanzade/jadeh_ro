@@ -61,6 +61,7 @@ void secondaryAlert(
     title: title,
     style: const AlertStyle(
       isCloseButton: false,
+      
       descStyle: TextStyle(
         color: Colors.grey,
         fontSize: 14,

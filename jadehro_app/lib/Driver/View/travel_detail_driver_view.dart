@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
@@ -186,8 +187,12 @@ class TravelDetailDriverView extends StatelessWidget {
                             text2:
                                 CommonController.to.tripDetailData.moneyType ==
                                         1
-                                    ? 'صلواتی'
-                                    : 'توافقی',
+                                    ? 'رایگان'
+                                    : CommonController
+                                                .to.tripDetailData.moneyType ==
+                                            2
+                                        ? 'توافقی'
+                                        : "15000 تومان",
                             icon: Icons.wallet,
                             border: true,
                           ),
@@ -210,9 +215,13 @@ class TravelDetailDriverView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "توضیحات",
-                            style: TextStyle(
+                          Text(
+                            CommonController
+                                    .to.tripDetailData.description.isEmpty
+                                ? 'توضیحات'
+                                : CommonController
+                                    .to.tripDetailData.description,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           const SizedBox(
@@ -234,47 +243,59 @@ class TravelDetailDriverView extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: Container(
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
-        color: Constants.backgroundColor,
-        child: SizedBox(
-          height: 50,
-          width: Get.width,
-          child: ElevatedButtonWidget(
-            backgroundColor: Colors.red.shade800,
-            onPressed: () async {
-              secondaryAlert(
-                buttonColor: Constants.driverColor,
-                context,
-                'هشدار!',
-                AlertType.warning,
-                'آیا لغو سفر خود اطمینان دارید؟',
-                'خیر',
-                'بله',
-                () {
-                  Get.back();
-                },
-                () async {
-                  Get.back();
-                  await DriverTripController.to.deleteTripForDriver(
-                      tripId: CommonController.to.tripDetailData.id);
-                },
-              );
-            },
-            child: showLoading.value
-                ? const SpinKitThreeBounce(
-                    color: Colors.white,
-                    size: 24.0,
-                  )
-                : const Text(
-                    'لغو',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+      floatingActionButton: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 24, 12),
+              height: 60,
+              child: ElevatedButtonWidget(
+                  onPressed: () {},
+                  backgroundColor: Constants.driverColor,
+                  child: const Text('اتمام سفر')),
+            ),
           ),
-        ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+            color: Constants.backgroundColor,
+            height: 60,
+            width: Get.width / 3,
+            child: ElevatedButtonWidget(
+              backgroundColor: Colors.red.shade800,
+              onPressed: () async {
+                secondaryAlert(
+                  buttonColor: Constants.driverColor,
+                  context,
+                  'هشدار!',
+                  AlertType.warning,
+                  'آیا لغو سفر خود اطمینان دارید؟',
+                  'خیر',
+                  'بله',
+                  () {
+                    Get.back();
+                  },
+                  () async {
+                    Get.back();
+                    await DriverTripController.to.deleteTripForDriver(
+                        tripId: CommonController.to.tripDetailData.id);
+                  },
+                );
+              },
+              child: showLoading.value
+                  ? const SpinKitThreeBounce(
+                      color: Colors.white,
+                      size: 24.0,
+                    )
+                  : const Text(
+                      'لغو',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+            ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

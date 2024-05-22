@@ -101,7 +101,7 @@ class TravelCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  travelModel.moneyType == 1 ? "صلواتی" : "توافقی",
+                  travelModel.moneyType == 1 ? "رایگان" : "توافقی",
                   style: const TextStyle(
                       color: Constants.passengerColor,
                       fontWeight: FontWeight.bold,

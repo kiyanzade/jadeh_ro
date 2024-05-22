@@ -95,7 +95,11 @@ class TravelCardDriver extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      travelData.moneyType == 1 ? "صلواتی" : "توافقی",
+                      travelData.moneyType == 1
+                          ? "رایگان"
+                          : travelData.moneyType == 2
+                              ? "توافقی"
+                              : '15000 تومان',
                       style: const TextStyle(
                         color: Constants.driverColor,
                         fontWeight: FontWeight.bold,

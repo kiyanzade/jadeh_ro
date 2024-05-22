@@ -51,8 +51,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-        fontFamily: FontFamily.iranSans,
-      ),
+          textTheme: const TextTheme(
+              displayMedium: TextStyle(color: Colors.white, fontSize: 24)),
+          fontFamily: FontFamily.iranSans,
+          colorScheme: const ColorScheme.light(primary: Colors.white)),
       textDirection: TextDirection.rtl,
       supportedLocales: const [
         Locale('fa', 'IR'),

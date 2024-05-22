@@ -9,7 +9,7 @@ import '../../Config/check_token_config.dart';
 import '../../gen/assets.gen.dart';
 
 class SplashScreenView extends StatefulWidget {
-  const SplashScreenView({Key? key}) : super(key: key);
+  const SplashScreenView({super.key});
   @override
   createState() => _SplashPageState();
 }
@@ -50,7 +50,7 @@ class _SplashPageState extends State<SplashScreenView> {
                 AnimatedTextKit(
                   animatedTexts: [
                     TypewriterAnimatedText(
-                      'جانمونی',
+                      'جاده رو',
                       textStyle: const TextStyle(
                         fontSize: 30.0,
                         color: Colors.white,
