@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Widgets/list_widget.dart';
-import 'package:jadehro_app/Driver/Controller/driver_trip_controller.dart';
+import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import '../../../Common/Controller/common_controller.dart';
 import '../../../Common/Widgets/button_widget.dart';
 import '../../../Common/Widgets/snack_bar_widget.dart';
@@ -63,10 +63,10 @@ class _SelectDestinationViewState extends State<SelectDestinationView> {
                             width: 8,
                           ),
                           Text(
-                            DriverTripController
+                            DriverController
                                     .to.selectedSourceProvince.value.isEmpty
                                 ? 'انتخاب کنید'
-                                : DriverTripController
+                                : DriverController
                                     .to.selectedSourceProvince.value,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -85,8 +85,7 @@ class _SelectDestinationViewState extends State<SelectDestinationView> {
                     ElevatedButtonWidget(
                       fixedSize: const Size(120, 40),
                       onPressed: () async {
-                        if (DriverTripController.to.selectedSourceProvinceId ==
-                            0) {
+                        if (DriverController.to.selectedSourceProvinceId == 0) {
                           snackBarWidget(
                             messageText: 'لطفا استان مبدا را وارد کنید.',
                             type: SnackBarWidgetType.failure,
@@ -113,11 +112,9 @@ class _SelectDestinationViewState extends State<SelectDestinationView> {
                             width: 8,
                           ),
                           Text(
-                            DriverTripController
-                                    .to.selectedSourceCity.value.isEmpty
+                            DriverController.to.selectedSourceCity.value.isEmpty
                                 ? 'انتخاب کنید'
-                                : DriverTripController
-                                    .to.selectedSourceCity.value,
+                                : DriverController.to.selectedSourceCity.value,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -164,10 +161,10 @@ class _SelectDestinationViewState extends State<SelectDestinationView> {
                             width: 8,
                           ),
                           Text(
-                            DriverTripController.to.selectedDestinationProvince
+                            DriverController.to.selectedDestinationProvince
                                     .value.isEmpty
                                 ? 'انتخاب کنید'
-                                : DriverTripController
+                                : DriverController
                                     .to.selectedDestinationProvince.value,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -186,8 +183,7 @@ class _SelectDestinationViewState extends State<SelectDestinationView> {
                     ElevatedButtonWidget(
                       fixedSize: const Size(120, 40),
                       onPressed: () async {
-                        if (DriverTripController
-                                .to.selectedDestinationProvinceId ==
+                        if (DriverController.to.selectedDestinationProvinceId ==
                             0) {
                           snackBarWidget(
                             messageText: 'لطفا استان مقصد را وارد کنید.',
@@ -215,10 +211,10 @@ class _SelectDestinationViewState extends State<SelectDestinationView> {
                             width: 8,
                           ),
                           Text(
-                            DriverTripController
+                            DriverController
                                     .to.selectedDestinationCity.value.isEmpty
                                 ? 'انتخاب کنید'
-                                : DriverTripController
+                                : DriverController
                                     .to.selectedDestinationCity.value,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,

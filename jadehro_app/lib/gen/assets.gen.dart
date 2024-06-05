@@ -21,6 +21,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/3.jpg
   AssetGenImage get a3 => const AssetGenImage('assets/images/3.jpg');
 
+  /// File path: assets/images/bell.json
+  String get bell => 'assets/images/bell.json';
+
   /// File path: assets/images/i1.jpg
   AssetGenImage get i1 => const AssetGenImage('assets/images/i1.jpg');
 
@@ -37,7 +40,7 @@ class $AssetsImagesGen {
   AssetGenImage get img => const AssetGenImage('assets/images/img.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [a1, a2, a3, i1, i2, i3, i4, img];
+  List<dynamic> get values => [a1, a2, a3, bell, i1, i2, i3, i4, img];
 }
 
 class Assets {

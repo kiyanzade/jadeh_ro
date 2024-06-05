@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:jadehro_app/Driver/Controller/driver_trip_controller.dart';
+import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import 'package:jadehro_app/gen/assets.gen.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../../Common/Widgets/button_widget.dart';
 import '../../../Common/Widgets/text_field_widget.dart';
@@ -22,7 +24,7 @@ class _SelectTimeViewState extends State<SelectTimeView> {
   RxBool sms = false.obs;
   RxBool call = false.obs;
   RxBool chat = false.obs;
-  RxString price = ''.obs;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,9 +60,9 @@ class _SelectTimeViewState extends State<SelectTimeView> {
                     ],
                   ),
                   value: 1,
-                  groupValue: DriverTripController.to.selectedMoneyType.value,
+                  groupValue: DriverController.to.selectedMoneyType.value,
                   onChanged: (int? value) {
-                    DriverTripController.to.selectedMoneyType.value = value!;
+                    DriverController.to.selectedMoneyType.value = value!;
                   },
                 ),
               ),
@@ -72,14 +74,66 @@ class _SelectTimeViewState extends State<SelectTimeView> {
                     children: [
                       Icon(Icons.car_crash_rounded),
                       SizedBox(width: 5),
-                      Text('(توافقی) باهزینه'),
+                      Text('توافقی'),
                     ],
                   ),
                   value: 2,
-                  groupValue: DriverTripController.to.selectedMoneyType.value,
+                  groupValue: DriverController.to.selectedMoneyType.value,
                   onChanged: (int? value) {
-                    DriverTripController.to.selectedMoneyType.value = value!;
+                    DriverController.to.selectedMoneyType.value = value!;
                   },
+                ),
+              ),
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RadioListTile(
+                      contentPadding: EdgeInsets.zero,
+                      activeColor: Constants.driverColor,
+                      title: const Row(
+                        children: [
+                          Icon(Icons.monetization_on),
+                          SizedBox(width: 5),
+                          Text('مبلغ'),
+                        ],
+                      ),
+                      value: 3,
+                      groupValue: DriverController.to.selectedMoneyType.value,
+                      onChanged: (int? value) {
+                        DriverController.to.selectedMoneyType.value = value!;
+                      },
+                    ),
+                    Visibility(
+                      visible: DriverController.to.selectedMoneyType.value == 3,
+                      child: TextFormFieldWidget(
+                        labelText: 'مبلغ به ازای هر نفر',
+                        prefixIcon: const Icon(Icons.attach_money_outlined,
+                            color: Colors.black),
+                        onChanged: (value) {
+                          if (value == ' تومان') {
+                            DriverController.to.money.text = "";
+                            return;
+                          }
+
+                          if (DriverController.to.money.text
+                              .contains('تومان')) {
+                      
+                          } else {
+                            DriverController.to.money.text =
+                                "$value تومان";
+
+                            DriverController.to.money.selection =
+                                TextSelection.fromPosition(
+                              const TextPosition(offset: 1),
+                            );
+                          }
+                        },
+                        keyboardType: TextInputType.number,
+                        controller: DriverController.to.money,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
@@ -240,7 +294,7 @@ class _SelectTimeViewState extends State<SelectTimeView> {
                             });
                         if (picked != null) {
                           setState(() {
-                            DriverTripController.to.selectedFromDateController
+                            DriverController.to.selectedFromDateController
                                 .text = picked.formatFullDate();
                           });
                         }
@@ -254,7 +308,7 @@ class _SelectTimeViewState extends State<SelectTimeView> {
                   Expanded(
                     child: TextFormFieldWidget(
                       controller:
-                          DriverTripController.to.selectedFromDateController,
+                          DriverController.to.selectedFromDateController,
                       labelText: 'تاریخ',
                       readOnly: true,
                       textAlign: TextAlign.right,

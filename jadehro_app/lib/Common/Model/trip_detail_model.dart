@@ -19,7 +19,11 @@ class TripDetailModel {
 class TripDetailData {
   final int id;
   final int capacity;
+  final int fillCapacity;
+  final int remainingCapacity;
   final int moneyType;
+  final int money;
+
   final String moveDateTime;
   final String description;
   final int carModelId;
@@ -32,9 +36,11 @@ class TripDetailData {
   final String createdDateTime;
 
   TripDetailData({
-    
     required this.id,
+    required this.money,
     required this.capacity,
+    required this.fillCapacity,
+    required this.remainingCapacity,
     required this.moneyType,
     required this.moveDateTime,
     required this.description,
@@ -50,6 +56,7 @@ class TripDetailData {
 
   factory TripDetailData.fromJson(Map<String, dynamic> json) => TripDetailData(
         id: json["id"] ?? 0,
+        money: json["money"] ?? 0,
         capacity: json["capacity"] ?? 0,
         moneyType: json["moneyType"] ?? 0,
         moveDateTime: json["moveDateTime"] ?? '',
@@ -62,5 +69,7 @@ class TripDetailData {
         destinationId: json["destinationId"] ?? 0,
         destinationName: json["destinationName"] ?? '',
         createdDateTime: json["createdDateTime"] ?? '',
+        fillCapacity: json["fillCapacity"] ?? 0,
+        remainingCapacity: json["remainingCapacity"] ?? 0,
       );
 }

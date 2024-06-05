@@ -149,8 +149,8 @@ class _VerifyCodePassengerViewState extends State<VerifyCodePassengerView> {
                                         countdownController.restart();
                                       }
                                     },
-                                    child: Row(
-                                      children: const [
+                                    child: const Row(
+                                      children: [
                                         Icon(
                                           Icons.replay,
                                           color: Constants.driverColor,
@@ -187,11 +187,11 @@ class _VerifyCodePassengerViewState extends State<VerifyCodePassengerView> {
                     () => ElevatedButtonWidget(
                       onPressed: isCodeFilled.value
                           ? () async {
-                              await AuthenticationController.to.verifyCode(
-                                userType: Get.arguments[0],
-                                phoneNumber: Get.arguments[1],
-                                isRegistered: Get.arguments[2],
-                              );
+                              // await AuthenticationController.to.verifyCode(
+                              //   userType: Get.arguments[0],
+                              //   phoneNumber: Get.arguments[1],
+                              //   isRegistered: Get.arguments[2],
+                              // );
                             }
                           : () {},
                       fixedSize: Size(Get.width, 50),

@@ -6,7 +6,7 @@ import 'package:jadehro_app/Common/Widgets/text_field_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
 import 'package:jadehro_app/Passenger/Controller/passenger_trip_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Driver/Controller/driver_trip_controller.dart';
+import '../../Driver/Controller/driver_controller.dart';
 import '../Controller/common_controller.dart';
 import 'button_widget.dart';
 
@@ -19,7 +19,8 @@ class ProvinceListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(
-          title: 'انتخاب استان', backgroundColor: Constants.passengerColor),
+          title: 'انتخاب استان مقصد',
+          backgroundColor: Constants.passengerColor),
       body: Padding(
         padding: const EdgeInsets.only(
           right: 12,
@@ -408,9 +409,9 @@ class BrandListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController.to.selectedCarBrand =
+                                  DriverController.to.selectedCarBrand =
                                       brandData.id;
-                                  DriverTripController.to.selectedBrand.value =
+                                  DriverController.to.selectedBrand.value =
                                       brandData.name;
                                   Get.back();
                                 },
@@ -481,7 +482,7 @@ class ModelListWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(4),
                       child: GestureDetector(
                         onTap: () {
-                          DriverTripController.to.selectedModel.value =
+                          DriverController.to.selectedModel.value =
                               Constants.modelList.reversed.toList()[index];
                           Get.back();
                         },
@@ -618,10 +619,9 @@ class AddTripSourceProvinceListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController
-                                          .to.selectedSourceProvinceId =
+                                  DriverController.to.selectedSourceProvinceId =
                                       provinceData.id;
-                                  DriverTripController.to.selectedSourceProvince
+                                  DriverController.to.selectedSourceProvince
                                       .value = provinceData.name;
                                   Get.back();
                                 },
@@ -764,10 +764,10 @@ class AddTripSourceCityListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController.to.selectedSourceCityId =
+                                  DriverController.to.selectedSourceCityId =
                                       provinceData.id;
-                                  DriverTripController.to.selectedSourceCity
-                                      .value = provinceData.name;
+                                  DriverController.to.selectedSourceCity.value =
+                                      provinceData.name;
                                   Get.back();
                                 },
                                 child: Container(
@@ -907,10 +907,10 @@ class AddTripDestinationProvinceListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController
+                                  DriverController
                                           .to.selectedDestinationProvinceId =
                                       provinceData.id;
-                                  DriverTripController
+                                  DriverController
                                       .to
                                       .selectedDestinationProvince
                                       .value = provinceData.name;
@@ -1056,12 +1056,10 @@ class AddTripDestinationCityListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController
+                                  DriverController
                                           .to.selectedDestinationCityId =
                                       provinceData.id;
-                                  DriverTripController
-                                      .to
-                                      .selectedDestinationCity
+                                  DriverController.to.selectedDestinationCity
                                       .value = provinceData.name;
                                   Get.back();
                                 },
@@ -1192,25 +1190,23 @@ class FilterSourceCityListWidget extends StatelessWidget {
               height: 20,
             ),
             Obx(() => Expanded(
-                  child: CommonController.to.destinationCityList.isNotEmpty
+                  child: CommonController.to.filterSourceCityList.isNotEmpty
                       ? ListView.builder(
                           itemCount:
-                              CommonController.to.destinationCityList.length,
+                              CommonController.to.filterSourceCityList.length,
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             final BaseListData provinceData =
-                                CommonController.to.destinationCityList[index];
+                                CommonController.to.filterSourceCityList[index];
                             return Padding(
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController
+                                  DriverController
                                           .to.selectedDestinationCityId =
                                       provinceData.id;
-                                  DriverTripController
-                                      .to
-                                      .selectedDestinationCity
+                                  DriverController.to.selectedDestinationCity
                                       .value = provinceData.name;
                                   Get.back();
                                 },
@@ -1351,10 +1347,10 @@ class FilterDestinationProvinceListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController
+                                  DriverController
                                           .to.selectedDestinationProvinceId =
                                       provinceData.id;
-                                  DriverTripController
+                                  DriverController
                                       .to
                                       .selectedDestinationProvince
                                       .value = provinceData.name;
@@ -1500,12 +1496,10 @@ class FilterDestinationCityListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverTripController
+                                  DriverController
                                           .to.selectedDestinationCityId =
                                       provinceData.id;
-                                  DriverTripController
-                                      .to
-                                      .selectedDestinationCity
+                                  DriverController.to.selectedDestinationCity
                                       .value = provinceData.name;
                                   Get.back();
                                 },

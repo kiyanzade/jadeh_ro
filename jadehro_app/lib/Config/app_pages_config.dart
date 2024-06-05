@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:jadehro_app/Driver/View/request_list_driver_view.dart';
 
 import '../Common/View/choice_screen_view.dart';
 import '../Common/View/help_on_board_screen.dart';
@@ -90,5 +91,9 @@ class AppPages {
   static final GetPage<dynamic> changephonepassengerview = GetPage(
     name: '/ChangePhonePassengerView',
     page: () => const ChangePhonePassengerView(),
+  );
+  static final GetPage<dynamic> requestsListDriverView = GetPage(
+    name: '/RequestsDriverView',
+    page: () => const RequestsListDriverView(),
   );
 }

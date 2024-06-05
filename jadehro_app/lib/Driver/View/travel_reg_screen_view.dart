@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/View/laws_screen_view.dart';
-import 'package:jadehro_app/Driver/Controller/driver_trip_controller.dart';
+import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../Common/Widgets/button_widget.dart';
 import '../../Common/Widgets/snack_bar_widget.dart';
@@ -25,7 +25,7 @@ List<Widget> pagesList = [
 ];
 
 class TravelOnboarding extends StatefulWidget {
-  const TravelOnboarding({Key? key}) : super(key: key);
+  const TravelOnboarding({super.key});
 
   @override
   State<TravelOnboarding> createState() => _TravelOnboardingState();
@@ -38,7 +38,6 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
 
   @override
   void initState() {
-    
     _pageController.addListener(() {
       if (_pageController.page!.round() != pageIndex) {
         setState(() {
@@ -96,12 +95,12 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                               () => ElevatedButtonWidget(
                                 onPressed: () async {
                                   if (isCheckPolicy.value) {
-                                    await DriverTripController.to
+                                    await DriverController.to
                                         .addTripForDriver();
                                     isCheckPolicy.value = false;
                                   }
                                 },
-                                fixedSize: const Size(80, 40),
+                                fixedSize: const Size(90, 40),
                                 backgroundColor: isCheckPolicy.value
                                     ? Constants.driverColor
                                     : Colors.grey,
@@ -118,15 +117,14 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                           : ElevatedButtonWidget(
                               onPressed: () {
                                 if (pageIndex == 0) {
-                                  if (DriverTripController
-                                          .to.selectedCarBrand ==
+                                  if (DriverController.to.selectedCarBrand ==
                                       0) {
                                     snackBarWidget(
                                       messageText:
                                           'لطفا نوع خودرو را وارد کنید.',
                                       type: SnackBarWidgetType.failure,
                                     );
-                                  } else if (DriverTripController
+                                  } else if (DriverController
                                       .to.selectedModel.isEmpty) {
                                     snackBarWidget(
                                       messageText:
@@ -143,7 +141,7 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                                   }
                                 }
                                 if (pageIndex == 1) {
-                                  if (DriverTripController
+                                  if (DriverController
                                           .to.selectedSourceProvinceId ==
                                       0) {
                                     snackBarWidget(
@@ -151,7 +149,7 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                                           'لطفا استان مبدا را وارد کنید.',
                                       type: SnackBarWidgetType.failure,
                                     );
-                                  } else if (DriverTripController
+                                  } else if (DriverController
                                           .to.selectedSourceCityId ==
                                       0) {
                                     snackBarWidget(
@@ -159,7 +157,7 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                                           'لطفا شهر مبدا را وارد کنید.',
                                       type: SnackBarWidgetType.failure,
                                     );
-                                  } else if (DriverTripController
+                                  } else if (DriverController
                                           .to.selectedDestinationProvinceId ==
                                       0) {
                                     snackBarWidget(
@@ -167,7 +165,7 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                                           'لطفا استان مقصد را وارد کنید.',
                                       type: SnackBarWidgetType.failure,
                                     );
-                                  } else if (DriverTripController
+                                  } else if (DriverController
                                           .to.selectedDestinationCityId ==
                                       0) {
                                     snackBarWidget(
@@ -185,7 +183,7 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                                   }
                                 }
                                 if (pageIndex == 2) {
-                                  if (DriverTripController
+                                  if (DriverController
                                       .to
                                       .selectedFromDateController
                                       .text

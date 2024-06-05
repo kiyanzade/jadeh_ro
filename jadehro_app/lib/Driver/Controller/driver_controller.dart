@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jadehro_app/Common/Model/trip_request_model.dart';
 import 'package:jadehro_app/Common/Widgets/snack_bar_widget.dart';
 import 'package:jadehro_app/Config/api_client_config.dart';
 
 import '../../Common/Model/trip_list_model.dart';
 import '../Model/driver_info_model.dart';
 
-class DriverTripController extends GetxController {
+class DriverController extends GetxController {
   final ApiClient apiClient = ApiClient();
-  static DriverTripController get to =>
-      Get.put<DriverTripController>(DriverTripController());
+  static DriverController get to =>
+      Get.put<DriverController>(DriverController());
   List<TripListData> driverTripList = <TripListData>[].obs;
+  List<TripReqData> driverReqTripList = <TripReqData>[].obs;
   final TextEditingController tripSearchController = TextEditingController();
   RxInt selectedMoneyType = 1.obs;
   int filterMoneyType = 0;
   int selectedCarBrand = 0;
+  int statusFilter = 0;
   int selectedSourceProvinceId = 0;
   int selectedDestinationProvinceId = 0;
   int selectedSourceCityId = 0;
@@ -26,6 +29,9 @@ class DriverTripController extends GetxController {
   final TextEditingController selectedFromDateController =
       TextEditingController();
   final TextEditingController selectedDescription = TextEditingController();
+  final TextEditingController money = TextEditingController();
+  final TextEditingController acceptOrRejectDescription =
+      TextEditingController();
 
   DriverInfoData driverInfoData = DriverInfoData(fullName: '', phoneNumber: '');
 
@@ -49,6 +55,7 @@ class DriverTripController extends GetxController {
         "carModel": int.parse(selectedModel.value),
         "carBrandId": selectedCarBrand,
         "sourceId": selectedSourceCityId,
+        "money": money.text.replaceFirst('تومان', ''),
         "destinationId": selectedDestinationCityId
       },
       needLoading: true,
@@ -85,9 +92,27 @@ class DriverTripController extends GetxController {
     }
   }
 
-  Future<void> deleteTripForDriver({required int tripId}) async {
+  Future<void> cancelTripForDriver({required int tripId}) async {
     final String response = await apiClient.httpResponse(
-      urlPath: 'Trip/Delete/$tripId',
+      urlPath: 'Trip/Cancel/$tripId',
+      httpMethod: HttpMethod.put,
+      needLoading: true,
+    );
+    if (response.isNotEmpty) {
+      driverTripList.clear();
+      tripListIndex = 0;
+      await getDriverTripList();
+      Get.back();
+      snackBarWidget(
+          messageText: 'سفر شما با موفقیت لغو شد.',
+          type: SnackBarWidgetType.success);
+    }
+  }
+
+  Future<void> finishTripForDriver({required int tripId}) async {
+    //TODO
+    final String response = await apiClient.httpResponse(
+      urlPath: 'Trip/Finish/$tripId',
       httpMethod: HttpMethod.put,
       needLoading: true,
     );
@@ -114,6 +139,7 @@ class DriverTripController extends GetxController {
   }
 
   Future<void> getDriverInfo({required int tripId}) async {
+    // DELETE
     final String response = await apiClient.httpResponse(
       urlPath: 'Trip/SeenDriverInfo?tripId=$tripId',
       httpMethod: HttpMethod.get,
@@ -121,6 +147,47 @@ class DriverTripController extends GetxController {
     if (response.isNotEmpty) {
       final DriverInfoModel result = driverInfoModelFromJson(response);
       driverInfoData = result.data;
+    }
+  }
+
+  Future<void> getDriverRequestList() async {
+    final String response = await apiClient.httpResponse(
+      urlPath: 'Trip/PassengerRequests?status=$statusFilter&index=0&count=50',
+      httpMethod: HttpMethod.get,
+    );
+    if (response.isNotEmpty) {
+      final TripReqModel result = tripReqModelFromJson(response);
+      driverReqTripList = result.data;
+    }
+  }
+
+  Future<void> driverReject(int tripId) async {
+    final String response = await apiClient.httpResponse(
+        urlPath: 'Trip/RejectRequest',
+        httpMethod: HttpMethod.put,
+        body: {
+          'id': tripId,
+          'acceptOrRejectDescription': acceptOrRejectDescription.text
+        });
+    if (response.isNotEmpty) {
+      snackBarWidget(
+          messageText: 'درخواست سفر با موفقیت رد شد.',
+          type: SnackBarWidgetType.success);
+    }
+  }
+
+  Future<void> driverAccept(int tripId) async {
+    final String response = await apiClient.httpResponse(
+        urlPath: 'Trip/AcceptRequest',
+        httpMethod: HttpMethod.put,
+        body: {
+          'id': tripId,
+          'acceptOrRejectDescription': acceptOrRejectDescription.text
+        });
+    if (response.isNotEmpty) {
+      snackBarWidget(
+          messageText: 'درخواست سفر با موفقیت تایید شد.',
+          type: SnackBarWidgetType.success);
     }
   }
 }

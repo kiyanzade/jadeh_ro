@@ -32,8 +32,12 @@ class _MainScreenPassengerViewState extends State<MainScreenPassengerView> {
       () => Scaffold(
         appBar: AppBar(
           backgroundColor: Constants.passengerColor,
-          title: const Text("جاده رو"),
+          title: const Text(
+            "جاده رو",
+            style: TextStyle(color: Colors.white),
+          ),
           centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         drawer: Drawer(
           width: (Get.width / 4) * 3.0,

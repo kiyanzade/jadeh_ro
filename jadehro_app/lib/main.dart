@@ -38,8 +38,8 @@ void configLoading() {
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
   configLoading();
 }
@@ -85,6 +85,7 @@ class MyApp extends StatelessWidget {
         AppPages.helpOnBoardScreen,
         AppPages.changephonedriverview,
         AppPages.changephonepassengerview,
+        AppPages.requestsListDriverView,
       ],
       builder: EasyLoading.init(),
       defaultTransition: Transition.noTransition,

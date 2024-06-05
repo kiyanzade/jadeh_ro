@@ -17,6 +17,7 @@ class AuthenticationController extends GetxController {
       Get.put<AuthenticationController>(AuthenticationController());
   final TextEditingController phoneNumber = TextEditingController();
   final TextEditingController nationalCode = TextEditingController();
+  final TextEditingController name = TextEditingController();
   final TextEditingController code = TextEditingController();
   bool isRegistered = false;
 
@@ -69,23 +70,23 @@ class AuthenticationController extends GetxController {
     return false;
   }
 
-  Future<void> verifyCode(
-      {required UserType userType,
-      required String phoneNumber,
-      required bool isRegistered}) async {
-    final String response = await apiClient.httpResponse(
-        urlPath: 'User/VerifyCode?phoneNumber=$phoneNumber&code=${code.text}',
-        httpMethod: HttpMethod.get,
-        needLoading: true,
-        needToken: false);
-    if (response.isNotEmpty) {
-      if (isRegistered) {
-        await login(userType: userType, phoneNumber: phoneNumber);
-      } else {
-        nationalCodeDialog(userType: userType, phoneNumber: phoneNumber);
-      }
-    }
-  }
+  // Future<void> verifyCode(
+  //     {required UserType userType,
+  //     required String phoneNumber,
+  //     required bool isRegistered}) async {
+  //   final String response = await apiClient.httpResponse(
+  //       urlPath: 'User/VerifyCode?phoneNumber=$phoneNumber&code=${code.text}',
+  //       httpMethod: HttpMethod.get,
+  //       needLoading: true,
+  //       needToken: false);
+  //   if (response.isNotEmpty) {
+  //     if (isRegistered) {
+  //       await login(userType: userType, phoneNumber: phoneNumber);
+  //     } else {
+  //       nationalCodeDialog(userType: userType, phoneNumber: phoneNumber);
+  //     }
+  //   }
+  // }
 
   Future<void> verifyCodeForChangePhoneNumber({
     required String phoneNumber,
@@ -137,6 +138,7 @@ class AuthenticationController extends GetxController {
       urlPath: 'User/RegisterClient',
       httpMethod: HttpMethod.post,
       body: {
+        "fullName":name.text,
         "phoneNumber": phoneNumber,
         "verifyCode": code.text,
         "nationalCode": nationalCode.text,

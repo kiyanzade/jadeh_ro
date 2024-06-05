@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jadehro_app/Common/Widgets/button_widget.dart';
+
+import 'package:lottie/lottie.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import '../../Config/constant.dart';
 import '../Controller/common_controller.dart';
 import '../Model/trip_list_model.dart';
@@ -56,7 +60,7 @@ class TravelCardDriver extends StatelessWidget {
                             travelData.sourceName,
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -99,7 +103,7 @@ class TravelCardDriver extends StatelessWidget {
                           ? "رایگان"
                           : travelData.moneyType == 2
                               ? "توافقی"
-                              : '15000 تومان',
+                              : '${travelData.money.toString().seRagham()} تومان',
                       style: const TextStyle(
                         color: Constants.driverColor,
                         fontWeight: FontWeight.bold,
@@ -108,6 +112,60 @@ class TravelCardDriver extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  children: [
+                    const Text('وضعیت: '),
+                    Text(
+                      travelData.tripStatus == 1
+                          ? "در انتظار مسافر"
+                          : travelData.tripStatus == 2
+                              ? "اتمام سفر"
+                              : "لفو شده",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: travelData.tripStatus == 1
+                            ? Colors.yellow.shade700
+                            : travelData.tripStatus == 2
+                                ? Constants.driverColor
+                                : Colors.red,
+                      ),
+                    )
+                  ],
+                ),
+                Divider(
+                  color: Colors.grey.shade300,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButtonWidget(
+                      onPressed: () {
+                        Get.toNamed('/RequestsDriverView');
+                      },
+                      backgroundColor: Constants.driverColor,
+                      child: const Text('درخواست‌ها'),
+                    ),
+                    Visibility(
+                      visible: travelData.haveNewReq,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.grey.shade100,
+                        ),
+                        child: Row(
+                          children: [
+                            Lottie.asset('assets/Images/bell.json', height: 20),
+                            const Text("درخواست جدید"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

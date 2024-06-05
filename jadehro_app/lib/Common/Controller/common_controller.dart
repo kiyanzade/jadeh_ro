@@ -5,7 +5,7 @@ import 'package:jadehro_app/Config/api_client_config.dart';
 import 'package:jadehro_app/Passenger/Controller/passenger_trip_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Driver/Controller/driver_trip_controller.dart';
+import '../../Driver/Controller/driver_controller.dart';
 import '../Model/province_model.dart';
 import '../Model/trip_detail_model.dart';
 import '../Model/trip_list_model.dart';
@@ -29,6 +29,7 @@ class CommonController extends GetxController {
       id: 0,
       capacity: 0,
       moneyType: 0,
+      money: 0,
       moveDateTime: '',
       description: '',
       carModelId: 0,
@@ -38,7 +39,9 @@ class CommonController extends GetxController {
       destinationId: 0,
       destinationName: '',
       createdDateTime: '',
-      carBrandName: '');
+      carBrandName: '',
+      fillCapacity: 0,
+      remainingCapacity: 0);
 
   final TextEditingController provinceListSearch = TextEditingController();
   final TextEditingController cityListSearch = TextEditingController();
@@ -70,7 +73,7 @@ class CommonController extends GetxController {
     EasyLoading.show();
     final String response = await apiClient.httpResponse(
       urlPath:
-          'Common/CountryDivisionByProvince/${DriverTripController.to.selectedSourceProvinceId}',
+          'Common/CountryDivisionByProvince/${DriverController.to.selectedSourceProvinceId}',
       httpMethod: HttpMethod.get,
       needToken: false,
     );
@@ -85,7 +88,7 @@ class CommonController extends GetxController {
     EasyLoading.show();
     final String response = await apiClient.httpResponse(
       urlPath:
-          'Common/CountryDivisionByProvince/${DriverTripController.to.selectedDestinationProvinceId}',
+          'Common/CountryDivisionByProvince/${DriverController.to.selectedDestinationProvinceId}',
       httpMethod: HttpMethod.get,
       needToken: false,
     );
@@ -131,8 +134,7 @@ class CommonController extends GetxController {
   Future<void> getCarBrandsByCarType() async {
     EasyLoading.show();
     final String response = await apiClient.httpResponse(
-      urlPath:
-          'Trip/CarBrands/${DriverTripController.to.selectedCarType.value}',
+      urlPath: 'Trip/CarBrands/${DriverController.to.selectedCarType.value}',
       httpMethod: HttpMethod.get,
       needToken: false,
     );

@@ -25,13 +25,19 @@ class TripListData {
   final int carModel;
   final String carBrandName;
   final int sourceId;
+  final int money;
   final String sourceName;
   final int destinationId;
+  final int tripStatus;
   final String destinationName;
   final String createdDateTime;
+  final bool haveNewReq;
 
   TripListData({
     required this.id,
+    required this.money,
+    required this.haveNewReq,
+    required this.tripStatus,
     required this.capacity,
     required this.moneyType,
     required this.moveDateTime,
@@ -46,7 +52,9 @@ class TripListData {
   });
 
   factory TripListData.fromJson(Map<String, dynamic> json) => TripListData(
-        id: json["id"],
+        id: json["id"] ?? 0,
+        money: json["money"] ?? 0,
+        tripStatus: json["status"] ?? 0,
         capacity: json["capacity"],
         moneyType: json["moneyType"],
         moveDateTime: json["moveDateTime"] ?? "",
@@ -56,6 +64,7 @@ class TripListData {
         sourceId: json["sourceId"],
         sourceName: json["sourceName"] ?? "",
         destinationId: json["destinationId"],
+        haveNewReq: json["haveNewReq"] ?? false,
         destinationName: json["destinationName"] ?? "",
         createdDateTime: json["createdDateTime"] ?? "",
       );

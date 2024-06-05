@@ -61,8 +61,10 @@ void nationalCodeDialog(
                     Get.back();
                   }, () async {
                     Get.back();
-                    await AuthenticationController.to
-                        .register(userType: userType, phoneNumber: phoneNumber);
+                    if (formkey.currentState!.validate()) {
+                      await AuthenticationController.to.register(
+                          userType: userType, phoneNumber: phoneNumber);
+                    }
                   },
                       buttonColor: userType == UserType.driver
                           ? Constants.driverColor
@@ -87,12 +89,41 @@ void nationalCodeDialog(
     ),
     content: Form(
       key: formkey,
-      child: TextFormFieldWidget(
-        labelText: 'کد ملی',
-        textAlign: TextAlign.right,
-        controller: AuthenticationController.to.nationalCode,
-        suffixIconConstraints: const BoxConstraints(maxWidth: 0),
-        prefixIconConstraints: const BoxConstraints(maxWidth: 30),
+      child: Column(
+        children: [
+          TextFormFieldWidget(
+            labelText: 'کد ملی',
+            textAlign: TextAlign.right,
+            keyboardType: TextInputType.number,
+            validator: (p0) {
+              if (p0 != null && p0.length == 10) {
+                return null;
+              } else {
+                return 'لطفا کد ملی را صحیح وارد کنید.';
+              }
+            },
+            controller: AuthenticationController.to.nationalCode,
+            suffixIconConstraints: const BoxConstraints(maxWidth: 0),
+            prefixIconConstraints: const BoxConstraints(maxWidth: 30),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          TextFormFieldWidget(
+            labelText: 'نام و نام خانوادگی',
+            textAlign: TextAlign.right,
+            validator: (p0) {
+              if (p0 != null && p0.length > 5) {
+                return null;
+              } else {
+                return 'لطفا نام و نام خانوادگی خود را صحیح وارد کنید';
+              }
+            },
+            controller: AuthenticationController.to.name,
+            suffixIconConstraints: const BoxConstraints(maxWidth: 0),
+            prefixIconConstraints: const BoxConstraints(maxWidth: 30),
+          ),
+        ],
       ),
     ),
   );

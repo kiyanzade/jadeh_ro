@@ -11,7 +11,7 @@ class PassengerTripController extends GetxController {
       Get.put<PassengerTripController>(PassengerTripController());
   RxList<TripListData> passengerTripList = <TripListData>[].obs;
   final TextEditingController tripSearchController = TextEditingController();
-  RxInt selectedMoneyType = 1.obs;
+  RxInt selectedMoneyType = 0.obs;
   int selectedCarBrand = 0;
   int selectedSourceProvinceId = 0;
   int selectedDestinationProvinceId = 0;
@@ -25,7 +25,7 @@ class PassengerTripController extends GetxController {
   RxString selectedDestinationProvince = ''.obs;
   RxString selectedDestinationCity = ''.obs;
 
-    final TextEditingController selectedFromDateController =
+  final TextEditingController selectedFromDateController =
       TextEditingController();
 
   Future<void> getPassengerTripList() async {
@@ -34,7 +34,7 @@ class PassengerTripController extends GetxController {
         preferences.getInt('selectedSourceProvinceId') ?? 0;
     final String response = await apiClient.httpResponse(
       urlPath:
-          'Trip/Accepted?Search=${tripSearchController.text}&MoneyType=${selectedMoneyType.obs}&CarBrandId=$selectedCarBrand&SourceProvinceId=$selectedSourceProvinceId&DestinationProvinceId=$selectedDestinationProvinceId&SourceId=$selectedSourceId&DestinationId=$selectedDestinationId&Capacity=$selectedCapacity&FromDate=$selectedFromDate&index=$tripListIndex&count=5',
+          'Trip/Pending?Search=${tripSearchController.text}&MoneyType=${selectedMoneyType.value}&CarBrandId=$selectedCarBrand&SourceProvinceId=$selectedSourceProvinceId&DestinationProvinceId=$selectedDestinationProvinceId&SourceId=$selectedSourceId&DestinationId=$selectedDestinationId&Capacity=$selectedCapacity&FromDate=$selectedFromDate&index=$tripListIndex&count=5',
       httpMethod: HttpMethod.get,
       needToken: false,
     );

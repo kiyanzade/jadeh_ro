@@ -5,7 +5,7 @@ import 'package:jadehro_app/Common/Controller/common_controller.dart';
 import '../../../Common/Widgets/button_widget.dart';
 import '../../../Common/Widgets/list_widget.dart';
 import '../../../Config/constant.dart';
-import '../../Controller/driver_trip_controller.dart';
+import '../../Controller/driver_controller.dart';
 
 class SelectCarView extends StatefulWidget {
   const SelectCarView({super.key});
@@ -52,13 +52,13 @@ class _SelectCarViewState extends State<SelectCarView> {
                     ],
                   ),
                   value: 1,
-                  groupValue: DriverTripController.to.selectedCarType.value,
+                  groupValue: DriverController.to.selectedCarType.value,
                   onChanged: (int? value) {
-                    DriverTripController.to.selectedCarType.value = value!;
-                    if (DriverTripController.to.spinValue.value > 4) {
-                      DriverTripController.to.spinValue = 4.obs;
+                    DriverController.to.selectedCarType.value = value!;
+                    if (DriverController.to.spinValue.value > 4) {
+                      DriverController.to.spinValue = 4.obs;
                     }
-                    DriverTripController.to.spinMax = 4.obs;
+                    DriverController.to.spinMax = 4.obs;
                   },
                 ),
                 RadioListTile(
@@ -72,10 +72,10 @@ class _SelectCarViewState extends State<SelectCarView> {
                     ],
                   ),
                   value: 2,
-                  groupValue: DriverTripController.to.selectedCarType.value,
+                  groupValue: DriverController.to.selectedCarType.value,
                   onChanged: (int? value) {
-                    DriverTripController.to.selectedCarType.value = value!;
-                    DriverTripController.to.spinMax = 14.obs;
+                    DriverController.to.selectedCarType.value = value!;
+                    DriverController.to.spinMax = 14.obs;
                   },
                 ),
                 const SizedBox(
@@ -111,9 +111,9 @@ class _SelectCarViewState extends State<SelectCarView> {
                             width: 8,
                           ),
                           Text(
-                            DriverTripController.to.selectedBrand.value.isEmpty
+                            DriverController.to.selectedBrand.value.isEmpty
                                 ? 'انتخاب کنید'
-                                : DriverTripController.to.selectedBrand.value,
+                                : DriverController.to.selectedBrand.value,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -152,9 +152,9 @@ class _SelectCarViewState extends State<SelectCarView> {
                             width: 8,
                           ),
                           Text(
-                            DriverTripController.to.selectedModel.value.isEmpty
+                            DriverController.to.selectedModel.value.isEmpty
                                 ? 'انتخاب کنید'
-                                : 'سال ${DriverTripController.to.selectedModel.value}',
+                                : 'سال ${DriverController.to.selectedModel.value}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -189,11 +189,11 @@ class _SelectCarViewState extends State<SelectCarView> {
                       ),
                     ),
                     min: 1,
-                    max: DriverTripController.to.spinMax.value.toDouble(),
-                    value: DriverTripController.to.spinValue.value.toDouble(),
+                    max: DriverController.to.spinMax.value.toDouble(),
+                    value: DriverController.to.spinValue.value.toDouble(),
                     onChanged: (value) {
-                      DriverTripController.to.selectedCapacity = value.toInt();
-                      DriverTripController.to.spinValue.value = value.toInt();
+                      DriverController.to.selectedCapacity = value.toInt();
+                      DriverController.to.spinValue.value = value.toInt();
                     },
                   ),
                 ),

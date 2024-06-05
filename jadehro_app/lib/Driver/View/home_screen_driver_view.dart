@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Widgets/travel_card_driver_widget.dart';
-import 'package:jadehro_app/Driver/Controller/driver_trip_controller.dart';
+import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -21,15 +21,15 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
 
   @override
   void dispose() {
-    DriverTripController.to.tripListIndex = 0;
-    DriverTripController.to.driverTripList.clear();
+    DriverController.to.tripListIndex = 0;
+    DriverController.to.driverTripList.clear();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: DriverTripController.to.getDriverTripList(),
+      future: DriverController.to.getDriverTripList(),
       builder: (context, snapshot) {
         return Column(
           children: [
@@ -101,23 +101,22 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
                       ),
                       onLoading: () async {
                         await Future.delayed(const Duration(seconds: 1));
-                        DriverTripController.to.tripListIndex += 1;
-                        await DriverTripController.to.getDriverTripList();
+                        DriverController.to.tripListIndex += 1;
+                        await DriverController.to.getDriverTripList();
                         refreshController.loadComplete();
                       },
                       child: Obx(
                         () {
-                          if (DriverTripController
-                              .to.driverTripList.isNotEmpty) {
+                          if (DriverController.to.driverTripList.isNotEmpty) {
                             return ListView.builder(
                               itemCount:
-                                  DriverTripController.to.driverTripList.length,
+                                  DriverController.to.driverTripList.length,
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
                                 return TravelCardDriver(
-                                  travelData: DriverTripController
-                                      .to.driverTripList[index],
+                                  travelData:
+                                      DriverController.to.driverTripList[index],
                                 );
                               },
                             );

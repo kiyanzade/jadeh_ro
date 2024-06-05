@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Common/Widgets/text_field_widget.dart';
-import '../../Controller/driver_trip_controller.dart';
+import '../../Controller/driver_controller.dart';
 
 class SelectDetailView extends StatefulWidget {
   const SelectDetailView({super.key});
@@ -38,7 +38,7 @@ class _SelectDetailViewState extends State<SelectDetailView> {
                 maxLines: 10,
                 labelText: 'توضیحات',
                 textAlign: TextAlign.right,
-                controller: DriverTripController.to.selectedDescription,
+                controller: DriverController.to.selectedDescription,
               ),
             ],
           ),

@@ -134,6 +134,7 @@ class ApiClient {
           );
         },
       );
+
       if (response.statusCode == 401) {
         final bool result = await getRefreshToken();
         if (result) {
@@ -190,6 +191,7 @@ class ApiClient {
     bool needLoading = false,
     bool dismissLoading = false,
   }) async {
+    debugPrint('url: $urlPath');
     showLoading.value = needLoading;
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final http.Response response = await httpRequest(
@@ -199,12 +201,14 @@ class ApiClient {
       httpMethod: httpMethod,
       body: body,
     );
+
     if (response.statusCode != 401) {
       final String decodeUtf8 = utf8.decode(
         response.bodyBytes,
       );
       final BaseDataModel result = baseDataModelFromJson(decodeUtf8);
       if (result.isSuccess) {
+        debugPrint('res: $decodeUtf8');
         showLoading.value = dismissLoading;
         return decodeUtf8;
       } else {

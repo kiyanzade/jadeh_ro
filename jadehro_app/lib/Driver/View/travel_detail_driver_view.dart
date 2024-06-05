@@ -1,16 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../Common/Controller/common_controller.dart';
 import '../../Common/Widgets/alert_dialog_widget.dart';
 import '../../Common/Widgets/button_widget.dart';
 import '../../Config/api_client_config.dart';
-import '../Controller/driver_trip_controller.dart';
+import '../Controller/driver_controller.dart';
 
 class TravelDetailDriverView extends StatelessWidget {
   const TravelDetailDriverView({super.key});
@@ -48,99 +50,120 @@ class TravelDetailDriverView extends StatelessWidget {
               ),
             ),
             Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.fromLTRB(0, 25, 25, 25),
               child: Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: 30,
-                            height: 30,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Constants.driverColor,
-                            ),
-                            child: const Icon(
-                              Icons.my_location,
-                              color: Colors.white,
-                              size: 20,
-                            ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Constants.driverColor,
+                                ),
+                                child: const Icon(
+                                  Icons.my_location,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                              Container(
+                                height: 50,
+                                width: 2,
+                                color: Colors.black12,
+                              ),
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Constants.driverColor,
+                                ),
+                                child: const Icon(
+                                  Icons.place,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            height: 50,
-                            width: 2,
-                            color: Colors.black12,
-                          ),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Constants.driverColor,
-                            ),
-                            child: const Icon(
-                              Icons.place,
-                              color: Colors.white,
-                              size: 20,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "مبدا",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  CommonController.to.tripDetailData.sourceName,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Container(
+                                  color: Colors.black12,
+                                  height: 2,
+                                  width: 220,
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                const Text(
+                                  "مقصد",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  CommonController
+                                      .to.tripDetailData.destinationName,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "مبدا",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              CommonController.to.tripDetailData.sourceName,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Container(
-                              color: Colors.black12,
-                              height: 2,
-                              width: 220,
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "مقصد",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              CommonController
-                                  .to.tripDetailData.destinationName,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                      Container(
+                        alignment: Alignment.center,
+                        width: 150,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(16),
+                                topRight: Radius.circular(16)),
+                            color: Constants.driverColor.withOpacity(0.3)),
+                        child: Text(
+                          "${CommonController.to.tripDetailData.remainingCapacity}/${CommonController.to.tripDetailData.capacity} :ظرفیت باقی مانده",
+                          style: const TextStyle(
+                              color: Constants.driverColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -161,7 +184,7 @@ class TravelDetailDriverView extends StatelessWidget {
                             border: true,
                           ),
                           LBox(
-                            text1: "ظرفیت",
+                            text1: "ظرفیت کل",
                             text2: CommonController.to.tripDetailData.capacity
                                 .toString(),
                             icon: Icons.person,
@@ -184,15 +207,15 @@ class TravelDetailDriverView extends StatelessWidget {
                           ),
                           LBox(
                             text1: "قیمت",
-                            text2:
-                                CommonController.to.tripDetailData.moneyType ==
-                                        1
-                                    ? 'رایگان'
-                                    : CommonController
-                                                .to.tripDetailData.moneyType ==
-                                            2
-                                        ? 'توافقی'
-                                        : "15000 تومان",
+                            text2: CommonController
+                                        .to.tripDetailData.moneyType ==
+                                    1
+                                ? 'رایگان'
+                                : CommonController
+                                            .to.tripDetailData.moneyType ==
+                                        2
+                                    ? 'توافقی'
+                                    : '${CommonController.to.tripDetailData.money.toString().seRagham()} تومان',
                             icon: Icons.wallet,
                             border: true,
                           ),
@@ -204,7 +227,7 @@ class TravelDetailDriverView extends StatelessWidget {
                     height: 24,
                   ),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    margin: const EdgeInsets.only(left: 35, right: 12),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -250,7 +273,21 @@ class TravelDetailDriverView extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 0, 24, 12),
               height: 60,
               child: ElevatedButtonWidget(
-                  onPressed: () {},
+                  onPressed: () async {
+                    secondaryAlert(
+                        buttonColor: Constants.driverColor,
+                        context,
+                        'اتمام سفر',
+                        AlertType.warning,
+                        "آیا از اتمام سفر خود اطمینان دارید؟",
+                        'خیر',
+                        "بله", () {
+                      Get.back();
+                    }, () async {
+                      await DriverController.to.cancelTripForDriver(
+                          tripId: CommonController.to.tripDetailData.id);
+                    });
+                  },
                   backgroundColor: Constants.driverColor,
                   child: const Text('اتمام سفر')),
             ),
@@ -276,7 +313,7 @@ class TravelDetailDriverView extends StatelessWidget {
                   },
                   () async {
                     Get.back();
-                    await DriverTripController.to.deleteTripForDriver(
+                    await DriverController.to.cancelTripForDriver(
                         tripId: CommonController.to.tripDetailData.id);
                   },
                 );

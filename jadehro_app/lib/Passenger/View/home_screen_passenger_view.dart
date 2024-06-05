@@ -124,24 +124,6 @@ class _HomePassengerScreenState extends State<HomePassengerScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ElevatedButtonWidget(
-                    onPressed: () {
-                      Get.toNamed('/HomeScreenFilterView');
-                    },
-                    fixedSize: const Size(35, 35),
-                    backgroundColor: Constants.passengerColor,
-                    child: const Text(
-                      'فیلتر',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                      ),
-                      textScaler: TextScaler.noScaling,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
                   Expanded(
                     child: SizedBox(
                       height: 35,
@@ -201,6 +183,22 @@ class _HomePassengerScreenState extends State<HomePassengerScreen> {
                         fontSize: 12,
                       ),
                       textScaler: TextScaler.noScaling,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  ElevatedButtonWidget(
+                    onPressed: () {
+                      Get.toNamed('/HomeScreenFilterView');
+                    },
+                    backgroundColor: Constants.passengerColor,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6),
+                      child: Icon(
+                        Icons.filter_alt_outlined,
+                        size: 24,
+                      ),
                     ),
                   ),
                 ],

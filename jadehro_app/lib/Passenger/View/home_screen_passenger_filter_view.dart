@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../../Common/Controller/common_controller.dart';
 import '../../Common/Widgets/app_bar_widget.dart';
@@ -55,8 +56,28 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                   RadioListTile(
                     contentPadding: EdgeInsets.zero,
                     activeColor: Constants.passengerColor,
-                    title: Row(
-                      children: const [
+                    title: const Row(
+                      children: [
+                        Icon(Icons.handshake_rounded),
+                        SizedBox(width: 5),
+                        Text('همه'),
+                      ],
+                    ),
+                    value: 0,
+                    groupValue:
+                        PassengerTripController.to.selectedMoneyType.value,
+                    onChanged: (int? value) {
+                      PassengerTripController.to.selectedMoneyType.value =
+                          value ?? 0;
+                      PassengerTripController.to.selectedMoneyType.value =
+                          value!;
+                    },
+                  ),
+                  RadioListTile(
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: Constants.passengerColor,
+                    title: const Row(
+                      children: [
                         Icon(Icons.handshake_rounded),
                         SizedBox(width: 5),
                         Text('رایگان'),
@@ -75,11 +96,11 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                   RadioListTile(
                     contentPadding: EdgeInsets.zero,
                     activeColor: Constants.passengerColor,
-                    title: Row(
-                      children: const [
+                    title: const Row(
+                      children: [
                         Icon(Icons.car_crash_rounded),
                         SizedBox(width: 5),
-                        Text('(توافقی) باهزینه'),
+                        Text('توافقی'),
                       ],
                     ),
                     value: 2,
@@ -88,6 +109,26 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                     onChanged: (int? value) {
                       PassengerTripController.to.selectedMoneyType.value =
                           value ?? 2;
+                      PassengerTripController.to.selectedMoneyType.value =
+                          value!;
+                    },
+                  ),
+                  RadioListTile(
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: Constants.passengerColor,
+                    title: const Row(
+                      children: [
+                        Icon(Icons.attach_money_sharp),
+                        SizedBox(width: 5),
+                        Text('با هرینه'),
+                      ],
+                    ),
+                    value: 3,
+                    groupValue:
+                        PassengerTripController.to.selectedMoneyType.value,
+                    onChanged: (int? value) {
+                      PassengerTripController.to.selectedMoneyType.value =
+                          value ?? 3;
                       PassengerTripController.to.selectedMoneyType.value =
                           value!;
                     },
@@ -108,7 +149,7 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                   Row(
                     children: <Widget>[
                       ElevatedButtonWidget(
-                        fixedSize: const Size(120, 40),
+                        fixedSize: const Size(125, 40),
                         onPressed: () async {
                           await CommonController.to
                               .getCityListBySourceProvinceForFilter();
@@ -120,9 +161,9 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Row(
-                          children: const [
+                          children: [
                             Text(
                               'شهر مبدا:',
                             ),
@@ -160,7 +201,7 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                         Row(
                           children: <Widget>[
                             ElevatedButtonWidget(
-                              fixedSize: const Size(120, 40),
+                              fixedSize: const Size(125, 40),
                               onPressed: () async {
                                 await CommonController.to.getProvinceList();
                                 // Get.to(
@@ -175,14 +216,17 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                                 // );
                               },
                               backgroundColor: Constants.passengerColor,
-                              child: const Text('انتخاب استان'),
+                              child: const Text(
+                                'انتخاب استان',
+                                style: TextStyle(fontSize: 14),
+                              ),
                             ),
                             const SizedBox(
                               width: 20,
                             ),
-                            Expanded(
+                            const Expanded(
                               child: Row(
-                                children: const [
+                                children: [
                                   Text(
                                     'استان مقصد:',
                                   ),
@@ -206,7 +250,7 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                         Row(
                           children: <Widget>[
                             ElevatedButtonWidget(
-                              fixedSize: const Size(120, 40),
+                              fixedSize: const Size(125, 40),
                               onPressed: () {
                                 // Get.to(
                                 //   ProvinceListWidget(
@@ -225,9 +269,9 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                             const SizedBox(
                               width: 20,
                             ),
-                            Expanded(
+                            const Expanded(
                               child: Row(
-                                children: const [
+                                children: [
                                   Text(
                                     'شهر مقصد:',
                                   ),
@@ -262,7 +306,7 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                   Row(
                     children: <Widget>[
                       ElevatedButtonWidget(
-                        fixedSize: const Size(120, 40),
+                        fixedSize: const Size(125, 40),
                         onPressed: () async {
                           // Get.to(
                           //   ProvinceListWidget(
@@ -282,9 +326,9 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Row(
-                          children: const [
+                          children: [
                             Text(
                               'برند:',
                             ),
@@ -337,7 +381,7 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                       SizedBox(
                         height: 40,
                         child: ElevatedButtonWidget(
-                          fixedSize: const Size(120, 40),
+                          fixedSize: const Size(125, 40),
                           backgroundColor: Constants.passengerColor,
                           onPressed: () async {},
                           child: const Text('انتخاب تاریخ'),
@@ -360,12 +404,13 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                       ),
                     ],
                   ),
-                  const Spacer(),
+                  const SizedBox(
+                    height: 100,
+                  ),
                   SizedBox(
                     height: 50,
                     width: Get.width,
                     child: ElevatedButtonWidget(
-                      fixedSize: const Size(120, 40),
                       backgroundColor: Constants.passengerColor,
                       onPressed: () {
                         Get.back();
@@ -377,9 +422,6 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
                 ],
               ),
             ),

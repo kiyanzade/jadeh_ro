@@ -119,7 +119,7 @@ class _HelpOnBoardScreenState extends State<HelpOnBoardScreen> {
                           await preferences.setBool('isSeeOnboard', true);
                           Get.offAllNamed("ChoiceScreenView");
                         },
-                        fixedSize: const Size(80, 40),
+                        fixedSize: const Size(100, 40),
                         backgroundColor: Constants.driverColor,
                         child: const Text("رد کردن"),
                       ),
