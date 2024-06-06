@@ -10,8 +10,8 @@ import '../../Driver/Controller/driver_controller.dart';
 import '../Controller/common_controller.dart';
 import 'button_widget.dart';
 
-class ProvinceListWidget extends StatelessWidget {
-  const ProvinceListWidget({
+class ProvinceSourceListWidget extends StatelessWidget {
+  const ProvinceSourceListWidget({
     super.key,
   });
 
@@ -19,7 +19,7 @@ class ProvinceListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarWidget(
-          title: 'انتخاب استان مقصد',
+          title: 'انتخاب استان مبدا',
           backgroundColor: Constants.passengerColor),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -112,12 +112,23 @@ class ProvinceListWidget extends StatelessWidget {
                                   await preferences.setInt(
                                       'selectedSourceProvinceId',
                                       provinceData.id);
+                                  await preferences.setString(
+                                      'selectedSourceProvince',
+                                      provinceData.name);
                                   PassengerTripController
                                           .to.selectedSourceProvinceId =
                                       provinceData.id;
-                                  Get.offAllNamed(
-                                    '/MainScreenPassengerView',
-                                  );
+                                  PassengerTripController
+                                      .to
+                                      .selectedSourceProvince
+                                      .value = provinceData.name;
+                                  if (Get.arguments[0]) {
+                                    Get.offAllNamed(
+                                      '/MainScreenPassengerView',
+                                    );
+                                  } else {
+                                    Get.back();
+                                  }
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.only(right: 16),
@@ -1347,10 +1358,10 @@ class FilterDestinationProvinceListWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               child: GestureDetector(
                                 onTap: () {
-                                  DriverController
+                                  PassengerTripController
                                           .to.selectedDestinationProvinceId =
                                       provinceData.id;
-                                  DriverController
+                                  PassengerTripController
                                       .to
                                       .selectedDestinationProvince
                                       .value = provinceData.name;
@@ -1521,6 +1532,149 @@ class FilterDestinationCityListWidget extends StatelessWidget {
                                     alignment: Alignment.centerRight,
                                     child: Text(
                                       provinceData.name,
+                                      textScaler: TextScaler.noScaling,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : const Center(
+                          child: Text('موردی برای نمایش وجود ندارد'),
+                        ),
+                )),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FilterBrandListWidget extends StatelessWidget {
+  const FilterBrandListWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBarWidget(
+          title: 'انتخاب نوع خودرو', backgroundColor: Constants.passengerColor),
+      body: Padding(
+        padding: const EdgeInsets.only(
+          right: 12,
+          left: 12,
+          top: 12,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 35,
+                      child: TextFormFieldWidget(
+                        labelText: 'جستجوی نوع خودرو',
+                        textAlign: TextAlign.right,
+                        textDirection: TextDirection.ltr,
+                        keyboardType: TextInputType.text,
+                        controller: CommonController.to.carBrandSearch,
+                        suffixIcon:
+                            const Icon(Icons.search, color: Colors.grey),
+                        onChanged: (value) async {
+                          if (value.isEmpty) {
+                            await CommonController.to.getCarBrandsByCarType();
+                          }
+                        },
+                        onTap: () {
+                          CommonController.to.carBrandSearch.selection =
+                              TextSelection.fromPosition(
+                            TextPosition(
+                              offset: CommonController
+                                  .to.carBrandSearch.text.length,
+                            ),
+                          );
+                          CommonController.to.carBrandSearch.clear();
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  ElevatedButtonWidget(
+                    onPressed: () async {
+                      await CommonController.to.getCarBrandsByCarType();
+                      CommonController.to.carBrandList.value = CommonController
+                          .to.carBrandList
+                          .where((element) => element.name.contains(
+                              CommonController.to.carBrandSearch.text))
+                          .toList();
+                    },
+                    fixedSize: const Size(90, 35),
+                    backgroundColor: Constants.passengerColor,
+                    child: const Text(
+                      'جستجو',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                      textScaler: TextScaler.noScaling,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() => Expanded(
+                  child: CommonController.to.carBrandList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: CommonController.to.carBrandList.length,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final BaseListData brandData =
+                                CommonController.to.carBrandList[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: GestureDetector(
+                                onTap: () {
+                                  PassengerTripController.to.selectedCarBrand =
+                                      brandData.id;
+                                  PassengerTripController.to.selectedBrand.value =
+                                      brandData.name;
+                                  Get.back();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 16),
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        blurRadius: 5,
+                                        spreadRadius: 1,
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      brandData.name,
                                       textScaler: TextScaler.noScaling,
                                       style: const TextStyle(
                                         fontSize: 14,

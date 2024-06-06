@@ -4,7 +4,6 @@ import 'package:jadehro_app/Common/Controller/common_controller.dart';
 import 'package:jadehro_app/Common/Widgets/button_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
 
-
 import '../../gen/assets.gen.dart';
 import '../Widgets/list_widget.dart';
 
@@ -43,9 +42,8 @@ class ChoiceScreenView extends StatelessWidget {
                     onPressed: () async {
                       CommonController.to.provinceListSearch.clear();
                       await CommonController.to.getProvinceList();
-                      Get.to(
-                        const ProvinceListWidget(),
-                      );
+                      Get.to(const ProvinceSourceListWidget(),
+                          arguments: [true]);
                     },
                     backgroundColor: Constants.passengerColor,
                     child: const Text("دنبال ماشین می گردم (مسافرم)"),
