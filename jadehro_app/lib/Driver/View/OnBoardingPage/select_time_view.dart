@@ -108,6 +108,7 @@ class _SelectTimeViewState extends State<SelectTimeView> {
                       visible: DriverController.to.selectedMoneyType.value == 3,
                       child: TextFormFieldWidget(
                         labelText: 'مبلغ به ازای هر نفر',
+                      
                         prefixIcon: const Icon(Icons.attach_money_outlined,
                             color: Colors.black),
                         onChanged: (value) {

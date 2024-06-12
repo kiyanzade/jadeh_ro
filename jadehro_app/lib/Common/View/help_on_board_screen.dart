@@ -45,7 +45,7 @@ class _HelpOnBoardScreenState extends State<HelpOnBoardScreen> {
                     OnBoardText(
                       title: "به جاده رو خوش اومدی!",
                       text:
-                          "جاده رو اومده تا از اربعین جاده رو کارش اینه که مسافر رو به راننده خودرو سواری برسونه تا تنها سفر نکنی",
+                          "جاده رو کارش اینه که مسافر رو به راننده خودرو سواری برسونه تا تنها سفر نکنی",
                       image: 'assets/images/1.jpg',
                     ),
                     OnBoardText(

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:get/get.dart';
+import 'package:jadehro_app/Common/Controller/authentication_controller.dart';
 import 'package:jadehro_app/Common/Controller/common_controller.dart';
+import 'package:jadehro_app/Common/Widgets/alert_dialog_widget.dart';
 import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
+import 'package:jadehro_app/Common/Widgets/text_field_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
+import 'package:jadehro_app/Passenger/Controller/passenger_trip_controller.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/Widgets/button_widget.dart';
-import '../../Common/Widgets/dialog_detail.dart';
 
 class TravelDetailPassengerView extends StatelessWidget {
   const TravelDetailPassengerView({super.key});
@@ -243,15 +248,14 @@ class TravelDetailPassengerView extends StatelessWidget {
             onPressed: () async {
               final SharedPreferences preferences =
                   await SharedPreferences.getInstance();
-
               await preferences.setInt(
                   "tripId", CommonController.to.tripDetailData.id);
 
               final bool isTokenExist = preferences.getString("token") != null;
               if (isTokenExist) {
-                driverInfoDialog();
+                paasengerRequestBottomSheet(Get.arguments);
               } else {
-                Get.toNamed('RegisterPassengerView');
+                Get.toNamed('/RegisterPassengerView');
               }
             },
             child: const Text(
@@ -265,6 +269,163 @@ class TravelDetailPassengerView extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  void paasengerRequestBottomSheet(int tripId) {
+    Get.bottomSheet(
+      SizedBox(
+        height: Get.height * 0.7,
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "درخواست به راننده",
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                  ),
+                  IconButton(
+                    onPressed: () => Get.back(),
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "محدوده آدرس: ",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: TextFormFieldWidget(
+                          controller:
+                              PassengerTripController.to.addressPassengerReq,
+                          labelText: 'محدوده آدرس',
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "ظرفیت درخواستی: ",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Obx(
+                        () => SizedBox(
+                          width: 200,
+                          height: 50,
+                          child: SpinBox(
+                            iconColor:
+                                const MaterialStatePropertyAll(Colors.grey),
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            min: 1,
+                            max: PassengerTripController.to.spinMax.value
+                                .toDouble(),
+                            value: PassengerTripController.to.spinValue.value
+                                .toDouble(),
+                            onChanged: (value) {
+                              PassengerTripController.to.reqCapacity =
+                                  value.toInt();
+                              PassengerTripController.to.spinValue.value =
+                                  value.toInt();
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "توضیحات: ",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormFieldWidget(
+                        controller: PassengerTripController.to.descriptionReq,
+                        maxLines: 5,
+                        labelText: 'توضیحات',
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButtonWidget(
+                  onPressed: () {
+                    secondaryAlert(
+                        Get.context!,
+                        'ارسال درخواست',
+                        AlertType.warning,
+                        'آیا از ارسال درخواست خود اطمینان دارید؟',
+                        "خیر",
+                        "بله", () {
+                      Get.back();
+                    }, () {
+                      Get.back();
+                      Get.back();
+                      PassengerTripController.to.sendRequestPassenger(tripId);
+                    }, buttonColor: Constants.passengerColor);
+                  },
+                  fixedSize: Size(Get.width, 55),
+                  backgroundColor: Constants.passengerColor,
+                  child: const Text("ارسال درخواست")),
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      barrierColor: Colors.black.withOpacity(0.7),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+      enableDrag: true,
+      isDismissible: true,
+      isScrollControlled: true,
+      elevation: 0,
     );
   }
 }

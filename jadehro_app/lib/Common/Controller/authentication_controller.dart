@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Widgets/snack_bar_widget.dart';
 import 'package:jadehro_app/Config/api_client_config.dart';
+import 'package:jadehro_app/Config/check_token_config.dart';
 import 'package:jadehro_app/Config/user_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,7 +47,7 @@ class AuthenticationController extends GetxController {
       Get.offAllNamed(
         userType == UserType.driver
             ? '/VerifyCodeDriverView'
-            : 'VerifyCodePassengerView',
+            : '/VerifyCodePassengerView',
         arguments: [
           userType,
           phoneNumber.text,
@@ -119,6 +120,7 @@ class AuthenticationController extends GetxController {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
       await preferences.setString('token', result.data.accessToken);
+      accessToken = result.data.accessToken;
       await preferences.setString(
         'refreshToken',
         result.data.refreshToken,
@@ -127,7 +129,6 @@ class AuthenticationController extends GetxController {
         Get.offAllNamed('/MainScreenDriverView');
       } else {
         Get.offAllNamed('/MainScreenPassengerView');
-        driverInfoDialog();
       }
     }
   }
@@ -138,7 +139,7 @@ class AuthenticationController extends GetxController {
       urlPath: 'User/RegisterClient',
       httpMethod: HttpMethod.post,
       body: {
-        "fullName":name.text,
+        "fullName": name.text,
         "phoneNumber": phoneNumber,
         "verifyCode": code.text,
         "nationalCode": nationalCode.text,
@@ -152,6 +153,7 @@ class AuthenticationController extends GetxController {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
       await preferences.setString('token', result.data.accessToken);
+      accessToken = result.data.accessToken;
       await preferences.setString(
         'refreshToken',
         result.data.refreshToken,
@@ -160,7 +162,6 @@ class AuthenticationController extends GetxController {
         Get.offAllNamed('/MainScreenDriverView');
       } else {
         Get.offAllNamed('/MainScreenPassengerView');
-        driverInfoDialog();
       }
     }
   }
@@ -193,6 +194,7 @@ class AuthenticationController extends GetxController {
     final bool isRefreshTokenRemoved = await preferences.remove("refreshToken");
 
     if (isTokenRemoved && isRefreshTokenRemoved) {
+      accessToken = '';
       Get.offAllNamed('/ChoiceScreenView');
     }
   }

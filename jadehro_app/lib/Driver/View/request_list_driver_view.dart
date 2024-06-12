@@ -1,33 +1,48 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Model/trip_request_model.dart';
 import 'package:jadehro_app/Common/Widgets/alert_dialog_widget.dart';
 import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
-
+import 'package:jadehro_app/Common/Widgets/text_field_widget.dart';
 import 'package:jadehro_app/Common/Widgets/travel_card_driver_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
 import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
 import '../../Common/Widgets/button_widget.dart';
 import '../../Common/Widgets/filters_widget.dart';
 
-class RequestsListDriverView extends StatelessWidget {
+class RequestsListDriverView extends StatefulWidget {
   const RequestsListDriverView({super.key});
+
+  @override
+  State<RequestsListDriverView> createState() => _RequestsListDriverViewState();
+}
+
+class _RequestsListDriverViewState extends State<RequestsListDriverView> {
+  @override
+  void dispose() {
+    selectedIdFilter.value = -1;
+    DriverController.to.statusFilter = 0;
+    DriverController.to.acceptOrRejectDescription.clear();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: appBarWidget(
-          title: 'لیست درخواست ها',
+          title: 'لیست درخواست‌ها',
           backgroundColor: Constants.driverColor,
         ),
         body: FutureBuilder(
           future: DriverController.to.getDriverRequestList(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const Center(child: CupertinoActivityIndicator());
             } else {
               return Column(
                 children: [
@@ -61,11 +76,12 @@ class RequestsListDriverView extends StatelessWidget {
                       ))
                     ]),
                   ),
-                  Expanded(
-                    child: (DriverController.to.driverReqTripList.isEmpty)
-                        ? const Center(
-                            child: Text("آیتمی برای نمایش وجود ندارد."))
-                        : Obx(() => ListView.builder(
+                  Obx(
+                    () => Expanded(
+                      child: (DriverController.to.driverReqTripList.isEmpty)
+                          ? const Center(
+                              child: Text("آیتمی برای نمایش وجود ندارد."))
+                          : ListView.builder(
                               shrinkWrap: true,
                               itemCount:
                                   DriverController.to.driverReqTripList.length,
@@ -142,7 +158,8 @@ class RequestsListDriverView extends StatelessWidget {
                                                               ? Colors
                                                                   .red.shade800
                                                               : Colors.red,
-                                                  fontSize: 12),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600),
                                             ),
                                           ),
                                         ],
@@ -157,18 +174,25 @@ class RequestsListDriverView extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Row(
-                                              children: [
-                                                const Text(
-                                                  'حدود آدرس: ',
-                                                  style: TextStyle(
-                                                      color: Colors.grey),
-                                                ),
-                                                const SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Text(tripReqData.address)
-                                              ],
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  const Text(
+                                                    'حدود آدرس: ',
+                                                    style: TextStyle(
+                                                        color: Colors.grey),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Expanded(
+                                                      child: Text(
+                                                          tripReqData.address))
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
                                             ),
                                             Row(
                                               children: [
@@ -188,6 +212,7 @@ class RequestsListDriverView extends StatelessWidget {
                                         height: 8,
                                       ),
                                       Container(
+                                        width: Get.width,
                                         padding: const EdgeInsets.all(12),
                                         margin: const EdgeInsets.symmetric(
                                             horizontal: 16),
@@ -227,19 +252,124 @@ class RequestsListDriverView extends StatelessWidget {
                                             children: [
                                               ElevatedButtonWidget(
                                                 onPressed: () {
-                                                  secondaryAlert(
-                                                      context,
-                                                      'هشدار',
-                                                      AlertType.warning,
-                                                      'آیا از تایید سفر اطمینان دارید؟',
-                                                      "خیر",
-                                                      "بله", () {
-                                                    Get.back();
-                                                  }, () async {
-                                                    await DriverController.to
-                                                        .driverAccept(
-                                                            tripReqData.id);
-                                                  });
+                                                  Get.bottomSheet(
+                                                    SizedBox(
+                                                      height: Get.height * 0.3,
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        16.0,
+                                                                    vertical:
+                                                                        8.0),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                const Text(
+                                                                  "تایید درخواست",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          16),
+                                                                ),
+                                                                IconButton(
+                                                                  onPressed:
+                                                                      () => Get
+                                                                          .back(),
+                                                                  icon: const Icon(
+                                                                      Icons
+                                                                          .close),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        16.0),
+                                                            child: SizedBox(
+                                                              width: Get.width,
+                                                              child:
+                                                                  TextFormFieldWidget(
+                                                                labelText:
+                                                                    "توضیحات",
+                                                                maxLines: 5,
+                                                                controller:
+                                                                    DriverController
+                                                                        .to
+                                                                        .acceptOrRejectDescription,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const Spacer(),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16.0),
+                                                            child:
+                                                                ElevatedButtonWidget(
+                                                                    fixedSize: Size(
+                                                                        Get
+                                                                            .width,
+                                                                        55),
+                                                                    onPressed:
+                                                                        () {
+                                                                      secondaryAlert(
+                                                                          context,
+                                                                          'هشدار',
+                                                                          AlertType
+                                                                              .warning,
+                                                                          'آیا از تایید مسافر اطمینان دارید؟',
+                                                                          "خیر",
+                                                                          "بله",
+                                                                          () {
+                                                                        Get.back();
+                                                                      }, () async {
+                                                                        await DriverController
+                                                                            .to
+                                                                            .driverAccept(tripReqData.id);
+                                                                 
+                                                                      },
+                                                                          buttonColor:
+                                                                              Constants.driverColor);
+                                                                    },
+                                                                    backgroundColor:
+                                                                        Constants
+                                                                            .driverColor,
+                                                                    child: const Text(
+                                                                        "تایید مسافر")),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    barrierColor: Colors.black
+                                                        .withOpacity(0.7),
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(10),
+                                                        topRight:
+                                                            Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                    enableDrag: true,
+                                                    isDismissible: true,
+                                                    isScrollControlled: true,
+                                                    elevation: 0,
+                                                  );
                                                 },
                                                 backgroundColor:
                                                     Constants.driverColor,
@@ -248,19 +378,123 @@ class RequestsListDriverView extends StatelessWidget {
                                               ),
                                               ElevatedButtonWidget(
                                                 onPressed: () {
-                                                  secondaryAlert(
-                                                      context,
-                                                      'هشدار',
-                                                      AlertType.warning,
-                                                      'آیا از رد سفر اطمینان دارید؟',
-                                                      "خیر",
-                                                      "بله", () {
-                                                    Get.back();
-                                                  }, () async {
-                                                    await DriverController.to
-                                                        .driverReject(
-                                                            tripReqData.id);
-                                                  });
+                                                  Get.bottomSheet(
+                                                    SizedBox(
+                                                      height: Get.height * 0.3,
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        16.0,
+                                                                    vertical:
+                                                                        8.0),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                const Text(
+                                                                  "رد درخواست",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          16),
+                                                                ),
+                                                                IconButton(
+                                                                  onPressed:
+                                                                      () => Get
+                                                                          .back(),
+                                                                  icon: const Icon(
+                                                                      Icons
+                                                                          .close),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        16.0),
+                                                            child: SizedBox(
+                                                              width: Get.width,
+                                                              child:
+                                                                  TextFormFieldWidget(
+                                                                labelText:
+                                                                    "توضیحات",
+                                                                maxLines: 5,
+                                                                controller:
+                                                                    DriverController
+                                                                        .to
+                                                                        .acceptOrRejectDescription,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const Spacer(),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16),
+                                                            child:
+                                                                ElevatedButtonWidget(
+                                                                    fixedSize: Size(
+                                                                        Get
+                                                                            .width,
+                                                                        55),
+                                                                    onPressed:
+                                                                        () {
+                                                                      secondaryAlert(
+                                                                          context,
+                                                                          'هشدار',
+                                                                          AlertType
+                                                                              .warning,
+                                                                          'آیا از رد سفر اطمینان دارید؟',
+                                                                          "خیر",
+                                                                          "بله",
+                                                                          () {
+                                                                        Get.back();
+                                                                      }, () async {
+                                                                        await DriverController
+                                                                            .to
+                                                                            .driverReject(tripReqData.id);
+                                                                      },
+                                                                          buttonColor:
+                                                                              Constants.driverColor);
+                                                                    },
+                                                                    backgroundColor:
+                                                                        Constants
+                                                                            .redColor,
+                                                                    child: const Text(
+                                                                        "رد درخواست")),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    barrierColor: Colors.black
+                                                        .withOpacity(0.7),
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(10),
+                                                        topRight:
+                                                            Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                    enableDrag: true,
+                                                    isDismissible: true,
+                                                    isScrollControlled: true,
+                                                    elevation: 0,
+                                                  );
                                                 },
                                                 backgroundColor: Colors.red,
                                                 child: const Text("رد درخواست"),
@@ -273,8 +507,9 @@ class RequestsListDriverView extends StatelessWidget {
                                   ),
                                 );
                               },
-                            )),
-                  )
+                            ),
+                    ),
+                  ),
                 ],
               );
             }

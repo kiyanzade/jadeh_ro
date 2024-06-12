@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:jadehro_app/Common/Model/trip_request_model.dart';
+import 'package:jadehro_app/Common/Widgets/snack_bar_widget.dart';
 import 'package:jadehro_app/Config/api_client_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +22,7 @@ class PassengerTripController extends GetxController {
   int selectedSourceId = 0;
   int selectedDestinationId = 0;
   int selectedCapacity = 4;
+  int reqStatusFilter = 0;
   int tripListIndex = 0;
   String selectedFromDate = '';
   RxString selectedBrand = 'همه ماشین‌ها'.obs;
@@ -27,8 +31,16 @@ class PassengerTripController extends GetxController {
   RxString selectedSourceProvince = ''.obs;
   RxString selectedDestinationCity = ''.obs;
 
+  RxList<TripReqData> passengerReqTripList = <TripReqData>[].obs;
+
+  RxInt spinValue = 1.obs;
+  RxInt spinMax = 4.obs;
+  int reqCapacity = 4;
+
   final TextEditingController selectedFromDateController =
       TextEditingController();
+  final TextEditingController addressPassengerReq = TextEditingController();
+  final TextEditingController descriptionReq = TextEditingController();
 
   Future<void> getPassengerTripList() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -44,5 +56,57 @@ class PassengerTripController extends GetxController {
       final TripListModel result = tripListModelFromJson(response);
       passengerTripList.addAll(result.data);
     }
+  }
+
+  Future<void> getPassengerTripRequestList() async {
+    final String response = await apiClient.httpResponse(
+      urlPath:
+          'Trip/PassengerRequests?status=$reqStatusFilter&index=0&count=20',
+      httpMethod: HttpMethod.get,
+    );
+    if (response.isNotEmpty) {
+      final TripReqModel result = tripReqModelFromJson(response);
+      passengerReqTripList.value = result.data;
+    }
+  }
+
+  Future<void> cancelRequest(int tripId) async {
+    EasyLoading.show();
+    final String response = await apiClient.httpResponse(
+      urlPath: 'Trip/CancelRequest?tripReqId=$tripId',
+      httpMethod: HttpMethod.put,
+    );
+    EasyLoading.dismiss();
+    if (response.isNotEmpty) {
+      Get.back();
+      snackBarWidget(
+          messageText: 'لغو درخواست با موفقیت انجام شد.',
+          type: SnackBarWidgetType.success);
+      await getPassengerTripRequestList();
+    }
+  }
+
+  Future<void> sendRequestPassenger(int tripId) async {
+    EasyLoading.show();
+    final String response = await apiClient.httpResponse(
+      urlPath: 'Trip/SendRequest',
+      httpMethod: HttpMethod.post,
+      body: {
+        "tripId": tripId,
+        "personCount": reqCapacity,
+        "address": addressPassengerReq.text,
+        "reqDescription": descriptionReq.text
+      },
+    );
+    EasyLoading.dismiss();
+    if (response.isNotEmpty) {
+      Get.back();
+      snackBarWidget(
+          messageText: 'ارسال درخواست با موفقیت انجام شد.',
+          type: SnackBarWidgetType.success);
+    }
+    reqCapacity = 4;
+    addressPassengerReq.clear();
+    descriptionReq.clear();
   }
 }

@@ -30,7 +30,7 @@ class _HomePassengerScreenState extends State<HomePassengerScreen> {
   }
 
   final RefreshController refreshController = RefreshController();
-  final player = AudioPlayer();
+
   RxBool play = false.obs;
   @override
   Widget build(BuildContext context) {
@@ -89,15 +89,7 @@ class _HomePassengerScreenState extends State<HomePassengerScreen> {
                             alignment: Alignment.center,
                             child: InkWell(
                               onTap: () {
-                                player.playing
-                                    ? {
-                                        player.pause(),
-                                        play.value = false,
-                                      }
-                                    : {
-                                        player.play(),
-                                        play.value = true,
-                                      };
+                             
                               },
                               child: Obx(() => Container(
                                     alignment: Alignment.center,

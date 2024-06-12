@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:jadehro_app/Config/check_token_config.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,6 +52,7 @@ class ApiClient {
       if (result.isSuccess) {
         final RefreshTokenModel result = refreshTokenModelFromJson(decodeUtf8);
         await preferences.setString('token', result.data.accessToken);
+        accessToken = result.data.accessToken;
         await preferences.setString('refreshToken', result.data.refreshToken);
         return true;
       } else {
@@ -113,12 +115,11 @@ class ApiClient {
     bool needLoading = false,
   }) async {
     late http.Response response;
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    String token = preferences.getString('token') ?? '';
+
     try {
       response = await setHttpMethode(
               httpMethod: httpMethod,
-              token: token,
+              token: accessToken,
               urlPath: urlPath,
               body: body,
               needToken: needToken)
@@ -138,12 +139,9 @@ class ApiClient {
       if (response.statusCode == 401) {
         final bool result = await getRefreshToken();
         if (result) {
-          final SharedPreferences preferences =
-              await SharedPreferences.getInstance();
-          String token = preferences.getString('token') ?? '';
           response = await setHttpMethode(
                   httpMethod: httpMethod,
-                  token: token,
+                  token: accessToken,
                   urlPath: urlPath,
                   body: body,
                   needToken: needToken)
@@ -222,6 +220,8 @@ class ApiClient {
     } else {
       await preferences.remove('token');
       await preferences.remove('refreshToken');
+            accessToken = '';
+
       Get.offAllNamed('/ChoiceScreenView');
       showLoading.value = dismissLoading;
       return '';

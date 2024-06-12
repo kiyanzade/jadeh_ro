@@ -17,7 +17,7 @@ import '../Passenger/View/verify_code_passenger_view.dart';
 import '../Passenger/View/register_screen_view_passenger.dart';
 import '../Common/View/splash_screen_view.dart';
 import '../Driver/View/verify_code_driver_view.dart';
-import '../Passenger/View/select_city_view.dart';
+import '../Passenger/View/trip_request_passenger_list_view.dart';
 
 class AppPages {
   static final GetPage<dynamic> splashScreenView = GetPage(
@@ -38,7 +38,7 @@ class AppPages {
   );
   static final GetPage<dynamic> selectCityView = GetPage(
     name: '/SelectCityView',
-    page: () => const SelectCityScreenView(),
+    page: () => const TripRequestPassengerListView(),
   );
   static final GetPage<dynamic> verifyCodePassengerView = GetPage(
     name: '/VerifyCodePassengerView',
@@ -58,7 +58,7 @@ class AppPages {
   );
   static final GetPage<dynamic> selectCityScreen = GetPage(
     name: '/SelectCityScreenView',
-    page: () => const SelectCityScreenView(),
+    page: () => const TripRequestPassengerListView(),
   );
   static final GetPage<dynamic> homeDriverScreen = GetPage(
     name: '/HomeDriverScreen',
@@ -95,5 +95,9 @@ class AppPages {
   static final GetPage<dynamic> requestsListDriverView = GetPage(
     name: '/RequestsDriverView',
     page: () => const RequestsListDriverView(),
+  );
+  static final GetPage<dynamic> tripRequestPassengerListView = GetPage(
+    name: '/TripRequestPassengerListView',
+    page: () => const TripRequestPassengerListView(),
   );
 }

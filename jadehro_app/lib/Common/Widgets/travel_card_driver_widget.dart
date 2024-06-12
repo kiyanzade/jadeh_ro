@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Widgets/button_widget.dart';
-
+import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import 'package:lottie/lottie.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import '../../Config/constant.dart';
@@ -17,6 +17,7 @@ class TravelCardDriver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RxBool isNewReq = travelData.haveNewReq.obs;
     return InkWell(
       onTap: () async {
         await CommonController.to.getTripDetail(tripId: travelData.id);
@@ -143,27 +144,32 @@ class TravelCardDriver extends StatelessWidget {
                   children: [
                     ElevatedButtonWidget(
                       onPressed: () {
+                        DriverController.to.tripIdForRequest = travelData.id;
                         Get.toNamed('/RequestsDriverView');
+                        isNewReq.value = false;
                       },
                       backgroundColor: Constants.driverColor,
                       child: const Text('درخواست‌ها'),
                     ),
-                    Visibility(
-                      visible: travelData.haveNewReq,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.grey.shade100,
-                        ),
-                        child: Row(
-                          children: [
-                            Lottie.asset('assets/Images/bell.json', height: 20),
-                            const Text("درخواست جدید"),
-                          ],
-                        ),
-                      ),
-                    ),
+                    Obx(() => Visibility(
+                          visible: isNewReq.value,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.grey.shade100,
+                            ),
+                            child: Row(
+                              children: [
+                                Lottie.asset(
+                                  'assets/Images/bell.json',
+                                  height: 20,
+                                ),
+                                const Text("درخواست جدید"),
+                              ],
+                            ),
+                          ),
+                        )),
                   ],
                 )
               ],

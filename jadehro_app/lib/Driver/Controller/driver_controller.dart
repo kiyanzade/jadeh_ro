@@ -12,7 +12,7 @@ class DriverController extends GetxController {
   static DriverController get to =>
       Get.put<DriverController>(DriverController());
   List<TripListData> driverTripList = <TripListData>[].obs;
-  List<TripReqData> driverReqTripList = <TripReqData>[].obs;
+  RxList<TripReqData> driverReqTripList = <TripReqData>[].obs;
   final TextEditingController tripSearchController = TextEditingController();
   RxInt selectedMoneyType = 1.obs;
   int filterMoneyType = 0;
@@ -24,11 +24,13 @@ class DriverController extends GetxController {
   int selectedDestinationCityId = 0;
   int selectedCapacity = 1;
   int tripListIndex = 0;
+  int tripIdForRequest = 0;
   RxInt spinValue = 1.obs;
   RxInt spinMax = 4.obs;
   final TextEditingController selectedFromDateController =
       TextEditingController();
   final TextEditingController selectedDescription = TextEditingController();
+
   final TextEditingController money = TextEditingController();
   final TextEditingController acceptOrRejectDescription =
       TextEditingController();
@@ -138,26 +140,15 @@ class DriverController extends GetxController {
     }
   }
 
-  Future<void> getDriverInfo({required int tripId}) async {
-    // DELETE
-    final String response = await apiClient.httpResponse(
-      urlPath: 'Trip/SeenDriverInfo?tripId=$tripId',
-      httpMethod: HttpMethod.get,
-    );
-    if (response.isNotEmpty) {
-      final DriverInfoModel result = driverInfoModelFromJson(response);
-      driverInfoData = result.data;
-    }
-  }
-
   Future<void> getDriverRequestList() async {
     final String response = await apiClient.httpResponse(
-      urlPath: 'Trip/PassengerRequests?status=$statusFilter&index=0&count=50',
+      urlPath:
+          'Trip/$tripIdForRequest/Requests?status=$statusFilter&index=0&count=50',
       httpMethod: HttpMethod.get,
     );
     if (response.isNotEmpty) {
       final TripReqModel result = tripReqModelFromJson(response);
-      driverReqTripList = result.data;
+      driverReqTripList.value = result.data;
     }
   }
 
@@ -170,6 +161,9 @@ class DriverController extends GetxController {
           'acceptOrRejectDescription': acceptOrRejectDescription.text
         });
     if (response.isNotEmpty) {
+      Get.back();
+      Get.back();
+      await getDriverRequestList();
       snackBarWidget(
           messageText: 'درخواست سفر با موفقیت رد شد.',
           type: SnackBarWidgetType.success);
@@ -185,6 +179,9 @@ class DriverController extends GetxController {
           'acceptOrRejectDescription': acceptOrRejectDescription.text
         });
     if (response.isNotEmpty) {
+      Get.back();
+      Get.back();
+      await getDriverRequestList();
       snackBarWidget(
           messageText: 'درخواست سفر با موفقیت تایید شد.',
           type: SnackBarWidgetType.success);

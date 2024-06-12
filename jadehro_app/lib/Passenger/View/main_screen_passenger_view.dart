@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jadehro_app/Common/Widgets/alert_dialog_widget.dart';
 import 'package:jadehro_app/Passenger/View/profile_screen_passenger_view.dart';
-import 'package:jadehro_app/Passenger/View/select_city_view.dart';
+import 'package:jadehro_app/Passenger/View/trip_request_passenger_list_view.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../Common/Controller/authentication_controller.dart';
 import '../../Config/constant.dart';
 
@@ -19,7 +21,7 @@ class MainScreenPassengerView extends StatefulWidget {
 
 class _MainScreenPassengerViewState extends State<MainScreenPassengerView> {
   final RxList pageList = [
-    const SelectCityScreenView(),
+    const TripRequestPassengerListView(),
     const HomePassengerScreen(),
     const ProfilePassengerScreen(),
   ].obs;
@@ -76,27 +78,27 @@ class _MainScreenPassengerViewState extends State<MainScreenPassengerView> {
                         const SizedBox(
                           width: 16,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              'شماره موبایل: ',
-                              textScaler: TextScaler.noScaling,
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white.withOpacity(0.8),
-                              ),
-                            ),
-                            const Text(
-                              "091356855547",
-                              textScaler: TextScaler.noScaling,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Text(
+                        //       'شماره موبایل: ',
+                        //       textScaler: TextScaler.noScaling,
+                        //       style: TextStyle(
+                        //         fontSize: 10,
+                        //         fontWeight: FontWeight.bold,
+                        //         color: Colors.white.withOpacity(0.8),
+                        //       ),
+                        //     ),
+                        //     const Text(
+                        //       "091356855547",
+                        //       textScaler: TextScaler.noScaling,
+                        //       style: TextStyle(
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.bold,
+                        //           color: Colors.white),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ],
@@ -179,20 +181,19 @@ class _MainScreenPassengerViewState extends State<MainScreenPassengerView> {
                           ),
                         ],
                       ),
-                      onTap: () async {
-                        // secondaryAlert(
-                        //     buttonColor: Constants.passengerColor,
-                        //     context,
-                        //     'هشدار!',
-                        //     AlertType.warning,
-                        //     'آیا از خروج از حساب کاربری اطمینان دارید؟',
-                        //     'خیر',
-                        //     'بله', () {
-                        //   Get.back();
-                        // }, () async {
-
-                        // });
-                        await AuthenticationController.to.logout();
+                      onTap: () {
+                        secondaryAlert(
+                            buttonColor: Constants.passengerColor,
+                            context,
+                            'هشدار!',
+                            AlertType.warning,
+                            'آیا از خروج از حساب کاربری اطمینان دارید؟',
+                            'خیر',
+                            'بله', () {
+                          Get.back();
+                        }, () async {
+                          await AuthenticationController.to.logout();
+                        });
                       },
                     ),
                   ],
@@ -202,53 +203,53 @@ class _MainScreenPassengerViewState extends State<MainScreenPassengerView> {
           ),
         ),
         body: pageList[pageIndex.value],
-        //   bottomNavigationBar: Container(
-        //     decoration: BoxDecoration(
-        //       border: Border(
-        //         top: BorderSide(
-        //           color: Colors.grey.shade200,
-        //         ),
-        //       ),
-        //     ),
-        //     child: BottomNavigationBar(
-        //         currentIndex: pageIndex.value,
-        //         onTap: (index) {
-        //           pageIndex.value = index;
-        //         },
-        //         selectedItemColor: Constants.passengerColor,
-        //         unselectedItemColor: Colors.grey,
-        //         iconSize: 24,
-        //         elevation: 0,
-        //         items: const [
-        //           BottomNavigationBarItem(
-        //             icon: Icon(
-        //               Icons.change_circle_outlined,
-        //             ),
-        //             activeIcon: Icon(
-        //               Icons.change_circle,
-        //             ),
-        //             label: "تغییر شهر",
-        //           ),
-        //           BottomNavigationBarItem(
-        //             icon: Icon(
-        //               Icons.home_outlined,
-        //             ),
-        //             activeIcon: Icon(
-        //               Icons.home,
-        //             ),
-        //             label: 'خانه',
-        //           ),
-        //           BottomNavigationBarItem(
-        //             icon: Icon(
-        //               Icons.person_outline,
-        //             ),
-        //             activeIcon: Icon(
-        //               Icons.person,
-        //             ),
-        //             label: 'پروفایل',
-        //           ),
-        //         ]),
-        //   ),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.grey.shade200,
+              ),
+            ),
+          ),
+          child: BottomNavigationBar(
+              currentIndex: pageIndex.value,
+              onTap: (index) {
+                pageIndex.value = index;
+              },
+              selectedItemColor: Constants.passengerColor,
+              unselectedItemColor: Colors.grey,
+              iconSize: 24,
+              elevation: 0,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.list_alt_rounded,
+                  ),
+                  activeIcon: Icon(
+                    Icons.list_alt_rounded,
+                  ),
+                  label: "درخواست‌ها",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home_outlined,
+                  ),
+                  activeIcon: Icon(
+                    Icons.home,
+                  ),
+                  label: 'خانه',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.person_outline,
+                  ),
+                  activeIcon: Icon(
+                    Icons.person,
+                  ),
+                  label: 'پروفایل',
+                ),
+              ]),
+        ),
       ),
     );
   }

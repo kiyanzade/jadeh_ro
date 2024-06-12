@@ -2,6 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Controller/common_controller.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import '../../Config/constant.dart';
 import '../Model/trip_list_model.dart';
 
@@ -14,7 +15,7 @@ class TravelCard extends StatelessWidget {
     return InkWell(
       onTap: () async {
         await CommonController.to.getTripDetail(tripId: travelModel.id);
-        Get.toNamed('/TravelDetailPassengerView');
+        Get.toNamed('/TravelDetailPassengerView', arguments: travelModel.id);
       },
       child: Column(
         children: [
@@ -101,7 +102,11 @@ class TravelCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  travelModel.moneyType == 1 ? "رایگان" : "توافقی",
+                  travelModel.moneyType == 1
+                      ? "رایگان"
+                      : travelModel.moneyType == 2
+                          ? "توافقی"
+                          : "${travelModel.money.toString().seRagham()} تومان",
                   style: const TextStyle(
                       color: Constants.passengerColor,
                       fontWeight: FontWeight.bold,

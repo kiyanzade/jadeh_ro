@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:jadehro_app/Common/Widgets/national_code_widget.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:pinput/pinput.dart';
 import 'package:timer_count_down/timer_controller.dart';
@@ -187,11 +188,15 @@ class _VerifyCodePassengerViewState extends State<VerifyCodePassengerView> {
                     () => ElevatedButtonWidget(
                       onPressed: isCodeFilled.value
                           ? () async {
-                              // await AuthenticationController.to.verifyCode(
-                              //   userType: Get.arguments[0],
-                              //   phoneNumber: Get.arguments[1],
-                              //   isRegistered: Get.arguments[2],
-                              // );
+                              if (Get.arguments[2]) {
+                                await AuthenticationController.to.login(
+                                    userType: Get.arguments[0],
+                                    phoneNumber: Get.arguments[1]);
+                              } else {
+                                nationalCodeDialog(
+                                    userType: Get.arguments[0],
+                                    phoneNumber: Get.arguments[1]);
+                              }
                             }
                           : () {},
                       fixedSize: Size(Get.width, 50),
