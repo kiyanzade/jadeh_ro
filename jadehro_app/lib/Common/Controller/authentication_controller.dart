@@ -9,8 +9,7 @@ import 'package:jadehro_app/Config/user_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Model/token_model.dart';
-import '../Widgets/dialog_detail.dart';
-import '../Widgets/national_code_widget.dart';
+
 
 class AuthenticationController extends GetxController {
   final ApiClient apiClient = ApiClient();

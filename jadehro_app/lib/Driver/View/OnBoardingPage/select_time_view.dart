@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
-import 'package:jadehro_app/gen/assets.gen.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../../Common/Widgets/button_widget.dart';
 import '../../../Common/Widgets/text_field_widget.dart';
