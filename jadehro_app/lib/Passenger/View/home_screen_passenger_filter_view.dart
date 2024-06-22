@@ -122,7 +122,7 @@ class _HomeScreenFilterViewState extends State<HomeScreenFilterView> {
                         children: [
                           Icon(Icons.attach_money_sharp),
                           SizedBox(width: 5),
-                          Text('با هرینه'),
+                          Text('با هزینه'),
                         ],
                       ),
                       value: 3,

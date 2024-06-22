@@ -6,10 +6,10 @@ import 'package:jadehro_app/Common/Widgets/snack_bar_widget.dart';
 import 'package:jadehro_app/Config/api_client_config.dart';
 import 'package:jadehro_app/Config/check_token_config.dart';
 import 'package:jadehro_app/Config/user_type.dart';
+import 'package:jadehro_app/Passenger/Controller/passenger_trip_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Model/token_model.dart';
-
 
 class AuthenticationController extends GetxController {
   final ApiClient apiClient = ApiClient();
@@ -191,7 +191,7 @@ class AuthenticationController extends GetxController {
 
     final bool isTokenRemoved = await preferences.remove("token");
     final bool isRefreshTokenRemoved = await preferences.remove("refreshToken");
-
+    // await Get.delete<PassengerTripController>();
     if (isTokenRemoved && isRefreshTokenRemoved) {
       accessToken = '';
       Get.offAllNamed('/ChoiceScreenView');

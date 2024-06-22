@@ -25,6 +25,8 @@ class _HomePassengerScreenState extends State<HomePassengerScreen> {
     PassengerTripController.to.tripSearchController.clear();
     PassengerTripController.to.tripListIndex = 0;
     PassengerTripController.to.passengerTripList.clear();
+    PassengerTripController.to.selectedDestinationProvince = 'همه استان‌ها'.obs;
+    PassengerTripController.to.selectedDestinationProvinceId = 0;
     super.dispose();
   }
 
@@ -87,9 +89,7 @@ class _HomePassengerScreenState extends State<HomePassengerScreen> {
                         ? Align(
                             alignment: Alignment.center,
                             child: InkWell(
-                              onTap: () {
-                             
-                              },
+                              onTap: () {},
                               child: Obx(() => Container(
                                     alignment: Alignment.center,
                                     width: 30,

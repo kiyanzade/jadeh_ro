@@ -59,6 +59,7 @@ void secondaryAlert(
     context: context,
     type: type,
     title: title,
+
     style: const AlertStyle(
       isCloseButton: false,
       

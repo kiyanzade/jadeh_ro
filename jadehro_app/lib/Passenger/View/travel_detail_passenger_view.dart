@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Controller/common_controller.dart';
 import 'package:jadehro_app/Common/Widgets/alert_dialog_widget.dart';
 import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
+import 'package:jadehro_app/Common/Widgets/location.dart';
+import 'package:jadehro_app/Common/Widgets/snack_bar_widget.dart';
 import 'package:jadehro_app/Common/Widgets/text_field_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
 import 'package:jadehro_app/Passenger/Controller/passenger_trip_controller.dart';
+import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Common/Widgets/button_widget.dart';
@@ -163,7 +167,8 @@ class TravelDetailPassengerView extends StatelessWidget {
                           ),
                           LBox(
                             text1: "ظرفیت",
-                            text2: CommonController.to.tripDetailData.capacity
+                            text2: CommonController
+                                .to.tripDetailData.remainingCapacity
                                 .toString(),
                             icon: Icons.person,
                             border: true,
@@ -303,7 +308,7 @@ class TravelDetailPassengerView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "محدوده آدرس: ",
+                        "آدرس مبدا: ",
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(
@@ -311,9 +316,123 @@ class TravelDetailPassengerView extends StatelessWidget {
                       ),
                       Expanded(
                         child: TextFormFieldWidget(
-                          controller:
-                              PassengerTripController.to.addressPassengerReq,
+                          maxLines: 2,
+                          suffixIcon: InkWell(
+                            onTap: () async {
+                              PickedData? pickedData =
+                                  await pickLocationBottomSheet();
+                              if (pickedData != null) {
+                                PassengerTripController.to.sourcePath.text =
+                                    '${pickedData.address['city'] ?? ''}, '
+                                    '${pickedData.address['neighbourhood'] ?? ''}, '
+                                    '${pickedData.address['road'] ?? ''}, '
+                                    '${pickedData.address['amenity'] ?? ''}';
+
+                                PassengerTripController.to.sourceLatitude =
+                                    pickedData.latLong.latitude;
+                                PassengerTripController.to.sourceLongitude =
+                                    pickedData.latLong.longitude;
+                              } else {
+                                // snackBarWidget(
+                                //     messageText: 'خطایی رخ داده است',
+                                //     type: SnackBarWidgetType.failure);
+                              }
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(Icons.location_on,
+                                    color: Constants.passengerColor),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  'انتخاب از روی نقشه',
+                                  style: TextStyle(
+                                      color: Constants.passengerColor,
+                                      fontSize: 10),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                )
+                              ],
+                            ),
+                          ),
+                          suffixIconConstraints:
+                              const BoxConstraints(maxWidth: 120),
+                          controller: PassengerTripController.to.sourcePath,
                           labelText: 'محدوده آدرس',
+                          enabled: true,
+                          readOnly: false,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "آدرس مقصد: ",
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: TextFormFieldWidget(
+                          maxLines: 2,
+                          suffixIcon: InkWell(
+                            onTap: () async {
+                              PickedData? pickedData =
+                                  await pickLocationBottomSheet();
+                              if (pickedData != null) {
+                                PassengerTripController
+                                        .to.destinationPath.text =
+                                    '${pickedData.address['city'] ?? ''}, '
+                                    '${pickedData.address['neighbourhood'] ?? ''}, '
+                                    '${pickedData.address['road'] ?? ''}, '
+                                    '${pickedData.address['amenity'] ?? ''}';
+                                PassengerTripController.to.destinationLatitude =
+                                    pickedData.latLong.latitude;
+                                PassengerTripController
+                                        .to.destinationLongitude =
+                                    pickedData.latLong.longitude;
+                              } else {
+                                // snackBarWidget(
+                                //     messageText: 'خطایی رخ داده است',
+                                //     type: SnackBarWidgetType.failure);
+                              }
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(Icons.location_on,
+                                    color: Constants.passengerColor),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  'انتخاب از روی نقشه',
+                                  style: TextStyle(
+                                      color: Constants.passengerColor,
+                                      fontSize: 10),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                )
+                              ],
+                            ),
+                          ),
+                          suffixIconConstraints:
+                              const BoxConstraints(maxWidth: 120),
+                          controller:
+                              PassengerTripController.to.destinationPath,
+                          labelText: 'محدوده آدرس',
+                          enabled: true,
+                          readOnly: false,
                         ),
                       )
                     ],
