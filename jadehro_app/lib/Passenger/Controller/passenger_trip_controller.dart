@@ -12,7 +12,7 @@ class PassengerTripController extends GetxController {
   final ApiClient apiClient = ApiClient();
   static PassengerTripController get to =>
       Get.put<PassengerTripController>(PassengerTripController(),
-          permanent: true);
+          permanent: true); // TODO
   RxList<TripListData> passengerTripList = <TripListData>[].obs;
   final TextEditingController tripSearchController = TextEditingController();
   RxInt selectedMoneyType = 0.obs;
@@ -21,7 +21,7 @@ class PassengerTripController extends GetxController {
   int selectedDestinationProvinceId = 0;
   int selectedSourceId = 0;
   int selectedDestinationId = 0;
-  int selectedCapacity = 4;
+  int selectedCapacity = 1;
   int reqStatusFilter = 0;
   int tripListIndex = 0;
   String selectedFromDate = '';
@@ -37,9 +37,15 @@ class PassengerTripController extends GetxController {
   RxInt spinMax = 4.obs;
   int reqCapacity = 4;
 
+  double sourceLatitude = 0;
+  double sourceLongitude = 0;
+  double destinationLatitude = 0;
+  double destinationLongitude = 0;
+
   final TextEditingController selectedFromDateController =
       TextEditingController();
-  final TextEditingController addressPassengerReq = TextEditingController();
+  final TextEditingController sourcePath = TextEditingController();
+  final TextEditingController destinationPath = TextEditingController();
   final TextEditingController descriptionReq = TextEditingController();
 
   Future<void> getPassengerTripList() async {
@@ -94,8 +100,13 @@ class PassengerTripController extends GetxController {
       body: {
         "tripId": tripId,
         "personCount": reqCapacity,
-        "address": addressPassengerReq.text,
-        "reqDescription": descriptionReq.text
+        "reqDescription": descriptionReq.text,
+        "sourcePath": sourcePath.text,
+        "sourceLatitude": sourceLatitude,
+        "sourceLongitude": sourceLongitude,
+        "DestinationPath": destinationPath.text,
+        "DestinationLatitude": destinationLatitude,
+        "DestinationLongitude": destinationLongitude,
       },
     );
     EasyLoading.dismiss();
@@ -105,8 +116,13 @@ class PassengerTripController extends GetxController {
           messageText: 'ارسال درخواست با موفقیت انجام شد.',
           type: SnackBarWidgetType.success);
     }
-    reqCapacity = 4;
-    addressPassengerReq.clear();
+    reqCapacity = 4; // TODO Define a separate controller for request
+    sourcePath.clear();
     descriptionReq.clear();
+    destinationPath.clear();
+    sourceLatitude = 0;
+    sourceLongitude = 0;
+    destinationLatitude = 0;
+    destinationLongitude = 0;
   }
 }

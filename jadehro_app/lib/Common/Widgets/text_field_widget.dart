@@ -116,7 +116,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final BoxConstraints? prefixIconConstraints;
   final int? maxLines;
   const TextFormFieldWidget({
-    Key? key,
+    super.key,
     this.controller,
     this.labelText,
     this.inputFormatters,
@@ -138,7 +138,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.suffixIconConstraints,
     this.prefixIconConstraints,
     this.maxLines = 1,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
