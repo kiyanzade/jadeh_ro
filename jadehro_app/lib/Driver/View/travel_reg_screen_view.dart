@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/View/laws_screen_view.dart';
+import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
 import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../Common/Widgets/button_widget.dart';
@@ -50,9 +51,13 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        appBar: Get.arguments['editMode'] ?? false
+            ? appBarWidget(
+                title: 'ویرایش سفر', backgroundColor: Constants.driverColor)
+            : null,
+        body: Column(
           children: [
             Expanded(
               child: PageView(
@@ -100,7 +105,7 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                                     isCheckPolicy.value = false;
                                   }
                                 },
-                                fixedSize: const Size(90, 40),
+                                fixedSize: const Size(100, 40),
                                 backgroundColor: isCheckPolicy.value
                                     ? Constants.driverColor
                                     : Colors.grey,
@@ -109,16 +114,18 @@ class _TravelOnboardingState extends State<TravelOnboarding> {
                                         color: Colors.white,
                                         size: 24.0,
                                       )
-                                    : const Text(
-                                        'ثبت',
+                                    : Text(
+                                        Get.arguments['editMode'] ?? false
+                                            ? 'ویرایش'
+                                            : 'ثبت',
                                       ),
                               ),
                             )
                           : ElevatedButtonWidget(
                               onPressed: () {
                                 if (pageIndex == 0) {
-                                  if (DriverController.to.selectedCarBrand ==
-                                      0) {
+                                  if (DriverController
+                                      .to.selectedBrand.value.isEmpty) {
                                     snackBarWidget(
                                       messageText:
                                           'لطفا نوع خودرو را وارد کنید.',

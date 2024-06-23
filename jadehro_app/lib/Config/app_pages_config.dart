@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:jadehro_app/Driver/View/request_list_driver_view.dart';
+import 'package:jadehro_app/Driver/View/travel_reg_screen_view.dart';
 
 import '../Common/View/choice_screen_view.dart';
 import '../Common/View/help_on_board_screen.dart';
@@ -99,5 +100,9 @@ class AppPages {
   static final GetPage<dynamic> tripRequestPassengerListView = GetPage(
     name: '/TripRequestPassengerListView',
     page: () => const TripRequestPassengerListView(),
+  );
+  static final GetPage<dynamic> tripRegisterDriver = GetPage(
+    name: '/TripRegisterDriver',
+    page: () => const TravelOnboarding(),
   );
 }

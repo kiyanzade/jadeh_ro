@@ -27,7 +27,7 @@ class TripDetailData {
   final String moveDateTime;
   final String description;
   final int carModelId;
-  final String carModelName;
+  final int carModelName;
   final String carBrandName;
   final int sourceId;
   final String sourceName;
@@ -62,7 +62,7 @@ class TripDetailData {
         moveDateTime: json["moveDateTime"] ?? '',
         description: json["description"] ?? '',
         carModelId: json["carModelId"] ?? 0,
-        carModelName: json["carModelName"] ?? '',
+        carModelName: json["carModel"] ?? 0,
         carBrandName: json["carBrandName"] ?? '',
         sourceId: json["sourceId"] ?? 0,
         sourceName: json["sourceName"] ?? '',

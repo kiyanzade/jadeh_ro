@@ -179,7 +179,7 @@ class _SelectCarViewState extends State<SelectCarView> {
                 ),
                 Obx(
                   () => SpinBox(
-                    iconColor: const MaterialStatePropertyAll(Colors.grey),
+                    iconColor: const WidgetStatePropertyAll(Colors.grey),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(

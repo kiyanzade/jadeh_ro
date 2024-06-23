@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
 import '../../Common/Controller/common_controller.dart';
 import '../../Common/Widgets/alert_dialog_widget.dart';
 import '../../Common/Widgets/button_widget.dart';
@@ -30,22 +27,96 @@ class TravelDetailDriverView extends StatelessWidget {
               height: 24,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 24, bottom: 10),
+              padding: const EdgeInsets.only(right: 24, bottom: 10, left: 24),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "شماره پیگیری: ",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                  Row(
+                    children: [
+                      const Text(
+                        "شماره پیگیری: ",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        CommonController.to.tripDetailData.id.toString(),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    CommonController.to.tripDetailData.id.toString(),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  IconButton(
+                      onPressed: () {
+                        //TODO
+                        //  get province name
+                        // car brand id
+                        DriverController.to.selectedBrand.value =
+                            CommonController.to.tripDetailData.carBrandName;
+                        DriverController.to.selectedModel.value =
+                            CommonController.to.tripDetailData.carModelName
+                                .toString();
+                        DriverController.to.selectedCapacity =
+                            CommonController.to.tripDetailData.capacity;
+                        DriverController.to.spinValue.value =
+                            CommonController.to.tripDetailData.capacity;
+
+                        DriverController.to.selectedSourceCityId =
+                            CommonController.to.tripDetailData.sourceId;
+                        DriverController.to.selectedDestinationCityId =
+                            CommonController.to.tripDetailData.destinationId;
+
+                        DriverController.to.selectedSourceProvinceId =
+                            int.parse(CommonController
+                                .to.tripDetailData.sourceId
+                                .toString()
+                                .substring(0, 2));
+
+                        DriverController.to.selectedDestinationProvinceId =
+                            int.parse(CommonController
+                                .to.tripDetailData.destinationId
+                                .toString()
+                                .substring(0, 2));
+
+                        // DriverController.to.selectedSourceProvince.value =
+                        //     CommonController.to.tripDetailData.sourceName;
+
+                        // DriverController.to.selectedDestinationProvince.value =
+                        // CommonController.to.tripDetailData.carBrandName;
+
+                        DriverController.to.selectedSourceCity.value =
+                            CommonController.to.tripDetailData.sourceName;
+                        DriverController.to.selectedDestinationCity.value =
+                            CommonController.to.tripDetailData.destinationName;
+                        DriverController.to.selectedMoneyType.value =
+                            CommonController.to.tripDetailData.moneyType;
+                        DriverController.to.money.text =
+                            CommonController.to.tripDetailData.money.toString();
+                        DriverController.to.selectedFromDateController.text =
+                            CommonController.to.tripDetailData.moveDateTime;
+                        DriverController.to.selectedDescription.text =
+                            CommonController.to.tripDetailData.description;
+
+                        Get.toNamed('/TripRegisterDriver',
+                            arguments: {'editMode': true}); //To edit tavel data
+                      },
+                      icon: const Row(
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            color: Constants.driverColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'ویرایش',
+                            style: TextStyle(color: Constants.driverColor),
+                          ),
+                        ],
+                      ))
                 ],
               ),
             ),
@@ -414,67 +485,66 @@ class LBox extends StatelessWidget {
   }
 }
 
-
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: SizedBox(
-            //         height: 50,
-            //         child: ElevatedButtonWidget(
-            //           backgroundColor: Constants.driverColor,
-            //           onPressed: () {},
-            //           child: const Text(
-            //             'ویرایش',
-            //             style: TextStyle(
-            //               fontSize: 14,
-            //               fontWeight: FontWeight.bold,
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     const SizedBox(
-            //       width: 20,
-            //     ),
-            //     Obx(
-            //       () => Expanded(
-            //         child: SizedBox(
-            //           height: 50,
-            //           child: ElevatedButtonWidget(
-            //             backgroundColor: Colors.red.shade800,
-            //             onPressed: () async {
-            //               secondaryAlert(
-            //                 buttonColor: Constants.driverColor,
-            //                 context,
-            //                 'هشدار!',
-            //                 AlertType.warning,
-            //                 'آیا لغو سفر خود اطمینان دارید؟',
-            //                 'خیر',
-            //                 'بله',
-            //                 () {
-            //                   Get.back();
-            //                 },
-            //                 () async {
-            //                   Get.back();
-            //                   await DriverTripController.to.deleteTripForDriver(
-            //                       tripId:
-            //                           CommonController.to.tripDetailData.id);
-            //                 },
-            //               );
-            //             },
-            //             child: showLoading.value
-            //                 ? const SpinKitThreeBounce(
-            //                     color: Colors.white,
-            //                     size: 24.0,
-            //                   )
-            //                 : const Text(
-            //                     'لغو',
-            //                     style: TextStyle(
-            //                         fontSize: 14, fontWeight: FontWeight.bold),
-            //                   ),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
+// Row(
+//   children: [
+//     Expanded(
+//       child: SizedBox(
+//         height: 50,
+//         child: ElevatedButtonWidget(
+//           backgroundColor: Constants.driverColor,
+//           onPressed: () {},
+//           child: const Text(
+//             'ویرایش',
+//             style: TextStyle(
+//               fontSize: 14,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//         ),
+//       ),
+//     ),
+//     const SizedBox(
+//       width: 20,
+//     ),
+//     Obx(
+//       () => Expanded(
+//         child: SizedBox(
+//           height: 50,
+//           child: ElevatedButtonWidget(
+//             backgroundColor: Colors.red.shade800,
+//             onPressed: () async {
+//               secondaryAlert(
+//                 buttonColor: Constants.driverColor,
+//                 context,
+//                 'هشدار!',
+//                 AlertType.warning,
+//                 'آیا لغو سفر خود اطمینان دارید؟',
+//                 'خیر',
+//                 'بله',
+//                 () {
+//                   Get.back();
+//                 },
+//                 () async {
+//                   Get.back();
+//                   await DriverTripController.to.deleteTripForDriver(
+//                       tripId:
+//                           CommonController.to.tripDetailData.id);
+//                 },
+//               );
+//             },
+//             child: showLoading.value
+//                 ? const SpinKitThreeBounce(
+//                     color: Colors.white,
+//                     size: 24.0,
+//                   )
+//                 : const Text(
+//                     'لغو',
+//                     style: TextStyle(
+//                         fontSize: 14, fontWeight: FontWeight.bold),
+//                   ),
+//           ),
+//         ),
+//       ),
+//     ),
+//   ],
+// ),

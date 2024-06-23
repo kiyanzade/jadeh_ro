@@ -85,6 +85,7 @@ class MyApp extends StatelessWidget {
         AppPages.changephonedriverview,
         AppPages.changephonepassengerview,
         AppPages.requestsListDriverView,
+        AppPages.tripRegisterDriver,
       ],
       builder: EasyLoading.init(),
       defaultTransition: Transition.noTransition,

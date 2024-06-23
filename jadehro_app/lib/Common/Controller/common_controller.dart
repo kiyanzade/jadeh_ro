@@ -33,7 +33,7 @@ class CommonController extends GetxController {
       moveDateTime: '',
       description: '',
       carModelId: 0,
-      carModelName: '',
+      carModelName:0,
       sourceId: 0,
       sourceName: '',
       destinationId: 0,
