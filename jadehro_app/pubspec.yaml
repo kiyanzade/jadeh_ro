@@ -47,6 +47,8 @@ dependencies:
   lottie: ^3.0.0
   open_street_map_search_and_pick: ^0.1.1
   flutter_map_cancellable_tile_provider: ^2.0.0
+  flutter_map: ^6.2.1
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:

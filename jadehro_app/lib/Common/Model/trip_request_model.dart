@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-TripReqModel tripReqModelFromJson(String str) =>
-    TripReqModel.fromJson(json.decode(str));
+TripReqModel tripReqModelFromJson(String str) => TripReqModel.fromJson(json.decode(str));
 
 class TripReqModel {
   final List<TripReqData> data;
@@ -11,8 +10,7 @@ class TripReqModel {
   });
 
   factory TripReqModel.fromJson(Map<String, dynamic> json) => TripReqModel(
-        data: List<TripReqData>.from(
-            json["data"].map((x) => TripReqData.fromJson(x))),
+        data: List<TripReqData>.from(json["data"].map((x) => TripReqData.fromJson(x))),
       );
 }
 
@@ -21,17 +19,26 @@ class TripReqData {
   final bool isActive;
   final int status;
   final String reqDateTime;
-  final String address;
+  final String sourcePath;
+  final String destinationPath;
   final String acceptOrRejectDateTime;
   final int personCount;
   final String reqDescription;
   final String acceptOrRejectDescription;
   final String userFullName;
+  final double sourceLatitude;
+  final double sourceLongitude;
+  final double destinationLatitude;
+  final double destinationLongitude;
   final Trip trip;
 
   TripReqData({
     required this.id,
-    required this.address,
+    required this.sourceLongitude,
+    required this.sourceLatitude,
+    required this.destinationLatitude,
+    required this.destinationPath,
+    required this.sourcePath,
     required this.isActive,
     required this.status,
     required this.reqDateTime,
@@ -41,19 +48,25 @@ class TripReqData {
     required this.acceptOrRejectDescription,
     required this.userFullName,
     required this.trip,
+    required this.destinationLongitude,
   });
 
   factory TripReqData.fromJson(Map<String, dynamic> json) => TripReqData(
         id: json["id"],
+        sourceLatitude: json["sourceLatitude"] ?? 0,
+        sourceLongitude: json["sourceLongitude"] ?? 0,
+        destinationLatitude: json["destinationLatitude"] ?? 0,
+        destinationLongitude: json["destinationLongitude"] ?? 0,
         isActive: json["isActive"],
         status: json["status"],
         reqDateTime: json["reqDateTime"],
-        acceptOrRejectDateTime: json["acceptOrRejectDateTime"]??'',
+        acceptOrRejectDateTime: json["acceptOrRejectDateTime"] ?? '',
         personCount: json["personCount"],
         reqDescription: json["reqDescription"],
-        acceptOrRejectDescription: json["acceptOrRejectDescription"]??'',
+        acceptOrRejectDescription: json["acceptOrRejectDescription"] ?? '',
         userFullName: json["userFullName"],
-        address: json["address"] ?? "",
+        sourcePath: json["sourcePath"] ?? "",
+        destinationPath: json["destinationPath"] ?? "",
         trip: Trip.fromJson(json["trip"]),
       );
 }
@@ -106,7 +119,7 @@ class Trip {
         isActive: json["isActive"],
         status: json["status"],
         moneyType: json["moneyType"],
-        money: json["money"]??0,
+        money: json["money"] ?? 0,
         moveDateTime: json["moveDateTime"],
         description: json["description"],
         isNewReq: json["haveNewReq"],
