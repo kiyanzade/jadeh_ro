@@ -10,7 +10,6 @@ import 'package:jadehro_app/Common/Widgets/travel_card_driver_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
 import 'package:jadehro_app/Driver/Controller/driver_controller.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../../Common/Widgets/button_widget.dart';
 import '../../Common/Widgets/filters_widget.dart';

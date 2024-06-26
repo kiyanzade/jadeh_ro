@@ -279,11 +279,12 @@ class _TripRequestPassengerListViewState extends State<TripRequestPassengerListV
                   height: 16,
                 ),
                 ElevatedButtonWidget(
-                    onPressed: () {
-                      Get.toNamed('/RegisterPassengerView', arguments: [false]); // if in req list screen
-                    },
-                    backgroundColor: Constants.passengerColor,
-                    child: const Text("ورود به حساب کاربری"))
+                  onPressed: () {
+                    Get.toNamed('/RegisterPassengerView', arguments: [false]); // if in req list screen
+                  },
+                  backgroundColor: Constants.passengerColor,
+                  child: const Text("ورود به حساب کاربری"),
+                )
               ],
             ),
           );

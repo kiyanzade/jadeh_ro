@@ -6,7 +6,6 @@ import 'package:jadehro_app/Common/Controller/common_controller.dart';
 import 'package:jadehro_app/Common/Widgets/alert_dialog_widget.dart';
 import 'package:jadehro_app/Common/Widgets/app_bar_widget.dart';
 import 'package:jadehro_app/Common/Widgets/location.dart';
-import 'package:jadehro_app/Common/Widgets/snack_bar_widget.dart';
 import 'package:jadehro_app/Common/Widgets/text_field_widget.dart';
 import 'package:jadehro_app/Config/constant.dart';
 import 'package:jadehro_app/Passenger/Controller/passenger_trip_controller.dart';

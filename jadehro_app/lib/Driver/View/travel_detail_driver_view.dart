@@ -17,8 +17,7 @@ class TravelDetailDriverView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-          title: "جزئیات سفر", backgroundColor: Constants.driverColor),
+      appBar: appBarWidget(title: "جزئیات سفر", backgroundColor: Constants.driverColor),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -49,58 +48,9 @@ class TravelDetailDriverView extends StatelessWidget {
                     ],
                   ),
                   IconButton(
-                      onPressed: () {
-                        //TODO
-                        //  get province name
-                        // car brand id
-                        DriverController.to.selectedBrand.value =
-                            CommonController.to.tripDetailData.carBrandName;
-                        DriverController.to.selectedModel.value =
-                            CommonController.to.tripDetailData.carModelName
-                                .toString();
-                        DriverController.to.selectedCapacity =
-                            CommonController.to.tripDetailData.capacity;
-                        DriverController.to.spinValue.value =
-                            CommonController.to.tripDetailData.capacity;
-
-                        DriverController.to.selectedSourceCityId =
-                            CommonController.to.tripDetailData.sourceId;
-                        DriverController.to.selectedDestinationCityId =
-                            CommonController.to.tripDetailData.destinationId;
-
-                        DriverController.to.selectedSourceProvinceId =
-                            int.parse(CommonController
-                                .to.tripDetailData.sourceId
-                                .toString()
-                                .substring(0, 2));
-
-                        DriverController.to.selectedDestinationProvinceId =
-                            int.parse(CommonController
-                                .to.tripDetailData.destinationId
-                                .toString()
-                                .substring(0, 2));
-
-                        // DriverController.to.selectedSourceProvince.value =
-                        //     CommonController.to.tripDetailData.sourceName;
-
-                        // DriverController.to.selectedDestinationProvince.value =
-                        // CommonController.to.tripDetailData.carBrandName;
-
-                        DriverController.to.selectedSourceCity.value =
-                            CommonController.to.tripDetailData.sourceName;
-                        DriverController.to.selectedDestinationCity.value =
-                            CommonController.to.tripDetailData.destinationName;
-                        DriverController.to.selectedMoneyType.value =
-                            CommonController.to.tripDetailData.moneyType;
-                        DriverController.to.money.text =
-                            CommonController.to.tripDetailData.money.toString();
-                        DriverController.to.selectedFromDateController.text =
-                            CommonController.to.tripDetailData.moveDateTime;
-                        DriverController.to.selectedDescription.text =
-                            CommonController.to.tripDetailData.description;
-
-                        Get.toNamed('/TripRegisterDriver',
-                            arguments: {'editMode': true}); //To edit tavel data
+                      onPressed: () async {
+                        await DriverController.to.initialEditTravelData();
+                        Get.toNamed('/TripRegisterDriver', arguments: {'editMode': true}); // To edit tavel data
                       },
                       icon: const Row(
                         children: [
@@ -127,114 +77,112 @@ class TravelDetailDriverView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 30,
-                                height: 30,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Constants.driverColor,
-                                ),
-                                child: const Icon(
-                                  Icons.my_location,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                width: 2,
-                                color: Colors.black12,
-                              ),
-                              Container(
-                                width: 30,
-                                height: 30,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Constants.driverColor,
-                                ),
-                                child: const Icon(
-                                  Icons.place,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const Text(
-                                  "مبدا",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Constants.driverColor,
                                   ),
-                                ),
-                                Text(
-                                  CommonController.to.tripDetailData.sourceName,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
+                                  child: const Icon(
+                                    Icons.my_location,
+                                    color: Colors.white,
+                                    size: 20,
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 15,
                                 ),
                                 Container(
+                                  height: 50,
+                                  width: 2,
                                   color: Colors.black12,
-                                  height: 2,
-                                  width: 220,
                                 ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                const Text(
-                                  "مقصد",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Constants.driverColor,
                                   ),
-                                ),
-                                Text(
-                                  CommonController
-                                      .to.tripDetailData.destinationName,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
+                                  child: const Icon(
+                                    Icons.place,
+                                    color: Colors.white,
+                                    size: 20,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "مبدا",
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    CommonController.to.tripDetailData.sourceName,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    color: Colors.black12,
+                                    height: 2,
+                                    width: 150,
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  const Text(
+                                    "مقصد",
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    CommonController.to.tripDetailData.destinationName,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         alignment: Alignment.center,
-                        width: 150,
                         height: 40,
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
-                                bottomRight: Radius.circular(16),
-                                topRight: Radius.circular(16)),
+                                bottomRight: Radius.circular(16), topRight: Radius.circular(16)),
                             color: Constants.driverColor.withOpacity(0.3)),
                         child: Text(
                           "${CommonController.to.tripDetailData.remainingCapacity}/${CommonController.to.tripDetailData.capacity} :ظرفیت باقی مانده",
-                          style: const TextStyle(
-                              color: Constants.driverColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
+                          style:
+                              const TextStyle(color: Constants.driverColor, fontSize: 12, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -249,15 +197,13 @@ class TravelDetailDriverView extends StatelessWidget {
                         children: [
                           LBox(
                             text1: "تاریخ حرکت",
-                            text2:
-                                CommonController.to.tripDetailData.moveDateTime,
+                            text2: CommonController.to.tripDetailData.moveDateTime,
                             icon: Icons.timelapse_rounded,
                             border: true,
                           ),
                           LBox(
                             text1: "ظرفیت کل",
-                            text2: CommonController.to.tripDetailData.capacity
-                                .toString(),
+                            text2: CommonController.to.tripDetailData.capacity.toString(),
                             icon: Icons.person,
                             border: true,
                           ),
@@ -271,20 +217,15 @@ class TravelDetailDriverView extends StatelessWidget {
                         children: [
                           LBox(
                             text1: "مدل ماشین",
-                            text2:
-                                CommonController.to.tripDetailData.carBrandName,
+                            text2: CommonController.to.tripDetailData.carBrandName,
                             icon: Icons.time_to_leave,
                             border: true,
                           ),
                           LBox(
                             text1: "قیمت",
-                            text2: CommonController
-                                        .to.tripDetailData.moneyType ==
-                                    1
+                            text2: CommonController.to.tripDetailData.moneyType == 1
                                 ? 'رایگان'
-                                : CommonController
-                                            .to.tripDetailData.moneyType ==
-                                        2
+                                : CommonController.to.tripDetailData.moneyType == 2
                                     ? 'توافقی'
                                     : '${CommonController.to.tripDetailData.money.toString().seRagham()} تومان',
                             icon: Icons.wallet,
@@ -310,13 +251,10 @@ class TravelDetailDriverView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            CommonController
-                                    .to.tripDetailData.description.isEmpty
+                            CommonController.to.tripDetailData.description.isEmpty
                                 ? 'توضیحات'
-                                : CommonController
-                                    .to.tripDetailData.description,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 14),
+                                : CommonController.to.tripDetailData.description,
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           const SizedBox(
                             height: 8,
@@ -355,8 +293,7 @@ class TravelDetailDriverView extends StatelessWidget {
                         "بله", () {
                       Get.back();
                     }, () async {
-                      await DriverController.to.cancelTripForDriver(
-                          tripId: CommonController.to.tripDetailData.id);
+                      await DriverController.to.cancelTripForDriver(tripId: CommonController.to.tripDetailData.id);
                     });
                   },
                   backgroundColor: Constants.driverColor,
@@ -384,8 +321,7 @@ class TravelDetailDriverView extends StatelessWidget {
                   },
                   () async {
                     Get.back();
-                    await DriverController.to.cancelTripForDriver(
-                        tripId: CommonController.to.tripDetailData.id);
+                    await DriverController.to.cancelTripForDriver(tripId: CommonController.to.tripDetailData.id);
                   },
                 );
               },

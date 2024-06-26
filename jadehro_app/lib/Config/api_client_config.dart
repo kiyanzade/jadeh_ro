@@ -190,6 +190,7 @@ class ApiClient {
     bool dismissLoading = false,
   }) async {
     debugPrint('url: $urlPath');
+    debugPrint('body: $body');
     showLoading.value = needLoading;
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     final http.Response response = await httpRequest(

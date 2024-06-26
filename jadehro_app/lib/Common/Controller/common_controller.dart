@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:jadehro_app/Config/api_client_config.dart';
+import 'package:jadehro_app/Config/check_token_config.dart';
 import 'package:jadehro_app/Passenger/Controller/passenger_trip_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,8 +14,7 @@ import '../Model/user_info_model.dart';
 
 class CommonController extends GetxController {
   final ApiClient apiClient = ApiClient();
-  static CommonController get to =>
-      Get.put<CommonController>(CommonController());
+  static CommonController get to => Get.put<CommonController>(CommonController());
   RxList<BaseListData> provinceList = <BaseListData>[].obs;
   RxList<BaseListData> sourceCityList = <BaseListData>[].obs;
   RxList<BaseListData> destinationCityList = <BaseListData>[].obs;
@@ -33,7 +33,7 @@ class CommonController extends GetxController {
       moveDateTime: '',
       description: '',
       carModelId: 0,
-      carModelName:0,
+      carModelName: 0,
       sourceId: 0,
       sourceName: '',
       destinationId: 0,
@@ -57,23 +57,25 @@ class CommonController extends GetxController {
 
   Future<void> getProvinceList() async {
     EasyLoading.show();
-    final String response = await apiClient.httpResponse(
-      urlPath: 'Common/Province',
-      httpMethod: HttpMethod.get,
-      needToken: false,
-    );
-    if (response.isNotEmpty) {
-      final BaseListModel result = baseListModelFromJson(response);
-      provinceList.value = result.data;
+    if (provinceList.isEmpty) {
+      final String response = await apiClient.httpResponse(
+        urlPath: 'Common/Province',
+        httpMethod: HttpMethod.get,
+        needToken: false,
+      );
+      if (response.isNotEmpty) {
+        final BaseListModel result = baseListModelFromJson(response);
+        provinceList.value = result.data;
+      }
     }
+
     EasyLoading.dismiss();
   }
 
   Future<void> getCityListBySourceProvince() async {
     EasyLoading.show();
     final String response = await apiClient.httpResponse(
-      urlPath:
-          'Common/CountryDivisionByProvince/${DriverController.to.selectedSourceProvinceId}',
+      urlPath: 'Common/CountryDivisionByProvince/${DriverController.to.selectedSourceProvinceId}',
       httpMethod: HttpMethod.get,
       needToken: false,
     );
@@ -87,8 +89,7 @@ class CommonController extends GetxController {
   Future<void> getCityListByDestinationProvince() async {
     EasyLoading.show();
     final String response = await apiClient.httpResponse(
-      urlPath:
-          'Common/CountryDivisionByProvince/${DriverController.to.selectedDestinationProvinceId}',
+      urlPath: 'Common/CountryDivisionByProvince/${DriverController.to.selectedDestinationProvinceId}',
       httpMethod: HttpMethod.get,
       needToken: false,
     );
@@ -102,8 +103,7 @@ class CommonController extends GetxController {
   Future<void> getCityListBySourceProvinceForFilter() async {
     EasyLoading.show();
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final int selectedSourceProvinceId =
-        preferences.getInt('selectedSourceProvinceId') ?? 0;
+    final int selectedSourceProvinceId = preferences.getInt('selectedSourceProvinceId') ?? 0;
     final String response = await apiClient.httpResponse(
       urlPath: 'Common/CountryDivisionByProvince/$selectedSourceProvinceId',
       httpMethod: HttpMethod.get,
@@ -119,8 +119,7 @@ class CommonController extends GetxController {
   Future<void> getCityListByDestinationProvinceForFilter() async {
     EasyLoading.show();
     final String response = await apiClient.httpResponse(
-      urlPath:
-          'Common/CountryDivisionByProvince/${PassengerTripController.to.selectedDestinationProvinceId}',
+      urlPath: 'Common/CountryDivisionByProvince/${PassengerTripController.to.selectedDestinationProvinceId}',
       httpMethod: HttpMethod.get,
       needToken: false,
     );
@@ -133,15 +132,18 @@ class CommonController extends GetxController {
 
   Future<void> getCarBrandsByCarType() async {
     EasyLoading.show();
-    final String response = await apiClient.httpResponse(
-      urlPath: 'Trip/CarBrands/${DriverController.to.selectedCarType.value}',
-      httpMethod: HttpMethod.get,
-      needToken: false,
-    );
-    if (response.isNotEmpty) {
-      final BaseListModel result = baseListModelFromJson(response);
-      carBrandList.value = result.data;
+    if (carBrandList.isEmpty) {
+      final String response = await apiClient.httpResponse(
+        urlPath: 'Trip/CarBrands/${DriverController.to.selectedCarType.value}',
+        httpMethod: HttpMethod.get,
+        needToken: false,
+      );
+      if (response.isNotEmpty) {
+        final BaseListModel result = baseListModelFromJson(response);
+        carBrandList.value = result.data;
+      }
     }
+
     EasyLoading.dismiss();
   }
 
@@ -160,14 +162,16 @@ class CommonController extends GetxController {
   }
 
   Future<void> getUserInfo() async {
-    final String response = await apiClient.httpResponse(
-      urlPath: 'User/Profile',
-      httpMethod: HttpMethod.get,
-      needToken: false,
-    );
-    if (response.isNotEmpty) {
-      final UserInfoModel result = userInfoModelFromJson(response);
-      userInfoData = result.data;
+    if (userInfoData.id == 0 && accessToken.isNotEmpty) {
+      final String response = await apiClient.httpResponse(
+        urlPath: 'User/Profile',
+        httpMethod: HttpMethod.get,
+        needToken: true,
+      );
+      if (response.isNotEmpty) {
+        final UserInfoModel result = userInfoModelFromJson(response);
+        userInfoData = result.data;
+      }
     }
   }
 }

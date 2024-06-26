@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:jadehro_app/Common/Controller/common_controller.dart';
 import 'package:jadehro_app/Common/Model/trip_request_model.dart';
 import 'package:jadehro_app/Common/Widgets/snack_bar_widget.dart';
 import 'package:jadehro_app/Config/api_client_config.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../Common/Model/trip_list_model.dart';
 import '../Model/driver_info_model.dart';
 
 class DriverController extends GetxController {
   final ApiClient apiClient = ApiClient();
-  static DriverController get to =>
-      Get.put<DriverController>(DriverController());
+  static DriverController get to => Get.put<DriverController>(DriverController());
   List<TripListData> driverTripList = <TripListData>[].obs;
   RxList<TripReqData> driverReqTripList = <TripReqData>[].obs;
   final TextEditingController tripSearchController = TextEditingController();
@@ -27,13 +29,11 @@ class DriverController extends GetxController {
   int tripIdForRequest = 0;
   RxInt spinValue = 1.obs;
   RxInt spinMax = 4.obs;
-  final TextEditingController selectedFromDateController =
-      TextEditingController();
+  final TextEditingController selectedFromDateController = TextEditingController();
   final TextEditingController selectedDescription = TextEditingController();
 
   final TextEditingController money = TextEditingController();
-  final TextEditingController acceptOrRejectDescription =
-      TextEditingController();
+  final TextEditingController acceptOrRejectDescription = TextEditingController();
 
   DriverInfoData driverInfoData = DriverInfoData(fullName: '', phoneNumber: '');
 
@@ -64,33 +64,31 @@ class DriverController extends GetxController {
     );
     if (response.isNotEmpty) {
       Get.offAllNamed('MainScreenDriverView');
-      snackBarWidget(
-          messageText: 'سفر شما با موفقیت ثبت شد.',
-          type: SnackBarWidgetType.success);
+      snackBarWidget(messageText: 'سفر شما با موفقیت ثبت شد.', type: SnackBarWidgetType.success);
     }
   }
 
   Future<void> editTripForDriver() async {
+    EasyLoading.show();
     final String response = await apiClient.httpResponse(
       urlPath: 'Trip/Edit',
       httpMethod: HttpMethod.put,
       body: {
-        "id": 0,
-        "isActive": true,
-        "capacity": 0,
-        "moneyType": 1,
-        "moveDateTime": "2023-08-15T07:50:49.489Z",
-        "description": "string",
-        "carModelId": 0,
-        "sourceId": 0,
-        "destinationId": 0
+        "id": CommonController.to.tripDetailData.id,
+        "capacity": selectedCapacity,
+        "moneyType": selectedMoneyType.value,
+        "moveDateTime": selectedFromDateController.text,
+        "description": selectedDescription.text,
+        "carModel": int.parse(selectedModel.value),
+        "sourceId": selectedSourceCityId,
+        "carBrandId": selectedCarBrand,
+        "destinationId": selectedDestinationCityId
       },
-      needLoading: true,
     );
+    EasyLoading.dismiss();
     if (response.isNotEmpty) {
-      snackBarWidget(
-          messageText: 'سفر شما با موفقیت ویرایش شد.',
-          type: SnackBarWidgetType.success);
+      Get.offAllNamed('MainScreenDriverView');
+      snackBarWidget(messageText: 'سفر شما با موفقیت ویرایش شد.', type: SnackBarWidgetType.success);
     }
   }
 
@@ -105,9 +103,7 @@ class DriverController extends GetxController {
       tripListIndex = 0;
       await getDriverTripList();
       Get.back();
-      snackBarWidget(
-          messageText: 'سفر شما با موفقیت لغو شد.',
-          type: SnackBarWidgetType.success);
+      snackBarWidget(messageText: 'سفر شما با موفقیت لغو شد.', type: SnackBarWidgetType.success);
     }
   }
 
@@ -123,13 +119,14 @@ class DriverController extends GetxController {
       tripListIndex = 0;
       await getDriverTripList();
       Get.back();
-      snackBarWidget(
-          messageText: 'سفر شما با موفقیت لغو شد.',
-          type: SnackBarWidgetType.success);
+      snackBarWidget(messageText: 'سفر شما با موفقیت لغو شد.', type: SnackBarWidgetType.success);
     }
   }
 
-  Future<void> getDriverTripList() async {
+  Future<void> getDriverTripList({bool paginate = true}) async {
+   if(paginate || driverTripList.isEmpty){
+
+   }
     final String response = await apiClient.httpResponse(
       urlPath: 'Trip/Driver?index=$tripListIndex&count=5',
       httpMethod: HttpMethod.get,
@@ -142,8 +139,7 @@ class DriverController extends GetxController {
 
   Future<void> getDriverRequestList() async {
     final String response = await apiClient.httpResponse(
-      urlPath:
-          'Trip/$tripIdForRequest/Requests?status=$statusFilter&index=0&count=50',
+      urlPath: 'Trip/$tripIdForRequest/Requests?status=$statusFilter&index=0&count=50',
       httpMethod: HttpMethod.get,
     );
     if (response.isNotEmpty) {
@@ -156,17 +152,12 @@ class DriverController extends GetxController {
     final String response = await apiClient.httpResponse(
         urlPath: 'Trip/RejectRequest',
         httpMethod: HttpMethod.put,
-        body: {
-          'id': tripId,
-          'acceptOrRejectDescription': acceptOrRejectDescription.text
-        });
+        body: {'id': tripId, 'acceptOrRejectDescription': acceptOrRejectDescription.text});
     if (response.isNotEmpty) {
       Get.back();
       Get.back();
       await getDriverRequestList();
-      snackBarWidget(
-          messageText: 'درخواست سفر با موفقیت رد شد.',
-          type: SnackBarWidgetType.success);
+      snackBarWidget(messageText: 'درخواست سفر با موفقیت رد شد.', type: SnackBarWidgetType.success);
     }
   }
 
@@ -174,17 +165,46 @@ class DriverController extends GetxController {
     final String response = await apiClient.httpResponse(
         urlPath: 'Trip/AcceptRequest',
         httpMethod: HttpMethod.put,
-        body: {
-          'id': tripId,
-          'acceptOrRejectDescription': acceptOrRejectDescription.text
-        });
+        body: {'id': tripId, 'acceptOrRejectDescription': acceptOrRejectDescription.text});
     if (response.isNotEmpty) {
       Get.back();
       Get.back();
       await getDriverRequestList();
-      snackBarWidget(
-          messageText: 'درخواست سفر با موفقیت تایید شد.',
-          type: SnackBarWidgetType.success);
+      snackBarWidget(messageText: 'درخواست سفر با موفقیت تایید شد.', type: SnackBarWidgetType.success);
     }
+  }
+
+  Future<void> initialEditTravelData() async {
+    await CommonController.to.getProvinceList();
+    await CommonController.to.getCarBrandsByCarType();
+
+    selectedBrand.value = CommonController.to.tripDetailData.carBrandName;
+    selectedModel.value = CommonController.to.tripDetailData.carModelName.toString();
+    selectedCapacity = CommonController.to.tripDetailData.capacity;
+    spinValue.value = CommonController.to.tripDetailData.capacity;
+
+    selectedSourceCityId = CommonController.to.tripDetailData.sourceId;
+    selectedDestinationCityId = CommonController.to.tripDetailData.destinationId;
+
+    selectedSourceProvinceId = int.parse(CommonController.to.tripDetailData.sourceId.toString().substring(0, 2));
+
+    selectedDestinationProvinceId =
+        int.parse(CommonController.to.tripDetailData.destinationId.toString().substring(0, 2));
+
+    selectedSourceProvince.value =
+        CommonController.to.provinceList.firstWhere((provinceData) => provinceData.id == selectedSourceProvinceId).name;
+
+    selectedDestinationProvince.value = CommonController.to.provinceList
+        .firstWhere((provinceData) => provinceData.id == selectedDestinationProvinceId)
+        .name;
+    selectedCarBrand =
+        CommonController.to.carBrandList.firstWhere((carBrandData) => carBrandData.name == selectedBrand.value).id;
+
+    selectedSourceCity.value = CommonController.to.tripDetailData.sourceName;
+    selectedDestinationCity.value = CommonController.to.tripDetailData.destinationName;
+    selectedMoneyType.value = CommonController.to.tripDetailData.moneyType;
+    money.text = "${CommonController.to.tripDetailData.money.toString().seRagham()} تومان";
+    selectedFromDateController.text = CommonController.to.tripDetailData.moveDateTime;
+    selectedDescription.text = CommonController.to.tripDetailData.description;
   }
 }

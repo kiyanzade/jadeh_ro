@@ -21,8 +21,7 @@ class _HomeDriverScreenState extends State<HomeDriverScreen> {
 
   @override
   void dispose() {
-    DriverController.to.tripListIndex = 0;
-    DriverController.to.driverTripList.clear();
+   
     super.dispose();
   }
 
