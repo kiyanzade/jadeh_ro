@@ -452,7 +452,7 @@ class TravelDetailPassengerView extends StatelessWidget {
                           height: 50,
                           child: SpinBox(
                             iconColor:
-                                const MaterialStatePropertyAll(Colors.grey),
+                                const WidgetStatePropertyAll(Colors.grey),
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius:

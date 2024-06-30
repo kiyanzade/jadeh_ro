@@ -35,7 +35,7 @@ class PassengerTripController extends GetxController {
 
   RxInt spinValue = 1.obs;
   RxInt spinMax = 4.obs;
-  int reqCapacity = 4;
+  int reqCapacity = 1;
 
   double sourceLatitude = 0;
   double sourceLongitude = 0;
