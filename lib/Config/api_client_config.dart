@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:jadehro_app/Config/check_token_config.dart';
-
+import 'package:jadehro_app/models/base_data_model.dart';
+import 'package:jadehro_app/models/refresh_token_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Common/Model/base_data_model.dart';
-import '../Common/Model/refresh_token_model.dart';
-import '../Common/Widgets/snack_bar_widget.dart';
+import '../widgets/snack_bar_widget.dart';
 import 'app_url_config.dart';
 
 RxBool showLoading = false.obs;
