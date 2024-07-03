@@ -1,8 +1,8 @@
-# Janamoni Project
+# JadehRo Project
 
 ## Project Description
 
-Given the high volume of intercity travel and the increase in single-occupancy vehicles, we developed the Janamoni app as part of our bachelor's project at Yazd University. Janamoni facilitates carpooling by connecting drivers with empty seats to passengers traveling the same route, thereby reducing traffic, air pollution, and travel costs. This approach maximizes vehicle capacity utilization and promotes efficient travel management.
+Given the high volume of intercity travel and the increase in single-occupancy vehicles, we developed the JadehRo app as part of our bachelor's project at Yazd University. JadehRo facilitates carpooling by connecting drivers with empty seats to passengers traveling the same route, thereby reducing traffic, air pollution, and travel costs. This approach maximizes vehicle capacity utilization and promotes efficient travel management.
 
 ## Features
 
