@@ -1,4 +1,4 @@
-# JadehRo Project
+# JadehRo web application project
 
 ## Project Description
 
